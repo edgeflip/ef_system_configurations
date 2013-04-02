@@ -1,0 +1,6 @@
+Listen <%= redirect_port %>
+<VirtualHost *:<%= redirect_port %>>
+        RewriteEngine on
+        RewriteCond %{SERVER_PORT} ^<%= redirect_port %>$
+        RewriteRule ^(.*)$ https://%{SERVER_NAME}$1 [L,R]
+</VirtualHost>

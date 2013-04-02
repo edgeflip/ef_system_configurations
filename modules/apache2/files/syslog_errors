@@ -1,0 +1,3 @@
+#Log all errors from other vhosts to syslog
+LogLevel notice
+ErrorLog syslog:local6

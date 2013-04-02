@@ -1,0 +1,1 @@
+LoadModule passenger_module /opt/rbenv/versions/1.9.3-p125/lib/ruby/gems/1.9.1/gems/passenger-3.0.11/ext/apache2/mod_passenger.so

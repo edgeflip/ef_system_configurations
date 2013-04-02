@@ -1,0 +1,15 @@
+<IfModule mod_passenger.c>
+  PassengerRoot <%= passenger_root %>
+  PassengerRuby <%= passenger_ruby %>
+  PassengerMaxPoolSize 16
+  PassengerPoolIdleTime 0
+  RailsAppSpawnerIdleTime 0
+<% if ruby == '1.8.7' -%>
+  RailsSpawnMethod conservative
+<% end -%>
+<% if ruby == '1.9.3' -%>
+  PassengerSpawnMethod conservative
+<% end -%>
+  PassengerStatThrottleRate 3
+  PassengerUseGlobalQueue on
+</IfModule>
