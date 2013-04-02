@@ -12,7 +12,7 @@
 class creds {
 
   $s3cfg = '/root/.s3cfg-creds'
-  $source = 's3://mofo-techops/creds/deployment/'
+  $source = 's3://ef-techops/creds/deployment/'
 
   file { '/root/creds':
     ensure => directory,
