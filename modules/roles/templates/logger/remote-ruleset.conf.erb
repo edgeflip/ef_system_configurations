@@ -1,0 +1,28 @@
+$RuleSet <%= log_env %>
+
+# filters for system logs
+:syslogfacility-text, isequal, "local6" /var/log/ef/<%= log_env %>/apache-error.log
+& ~
+
+:syslogfacility-text, isequal, "news" /var/log/ef/<%= log_env %>/apache-access.log
+& ~
+
+:syslogfacility-text, isequal, "auth" /var/log/ef/<%= log_env %>/auth.log
+& ~
+
+:syslogfacility-text, isequal, "authpriv" /var/log/ef/<%= log_env %>/auth.log
+& ~
+
+# ef APPLICATIONS
+#
+# named inputs first, then facilities
+
+
+
+## facilities
+:programname, isequal, "puppet-agent" /var/log/ef/<%= log_env %>/puppet.log
+& ~
+
+*.* /var/log/ef/<%= log_env %>/other.log
+
+#TODO kill after the catchall?
