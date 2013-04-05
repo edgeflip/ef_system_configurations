@@ -77,7 +77,6 @@ node /^apachebase-fdfhjjsqqerfds.*$/ inherits apache {
     class { 'base': production => $production }
 }
 
-
 # OPS AND DEPLOY NODES
 node /^geppetto-eerrillhnbcdd.*$/ {
     $production = true
@@ -95,3 +94,20 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
 }
 
 # APP NODES
+node /^edgeflip-staging-fjiiuyyserwse.*$/ inherits apache_modwsgi {
+    $production = false
+    $env = 'staging'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+node /^edgeflip-fjiiuyyserwse.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
