@@ -60,7 +60,7 @@ class apps::edgeflip ( $env='production' ) {
     require     => [ Package['edgeflip'],
                      File['/opt/fix-perms.sh'],
                      File['/var/www/edgeflip/edgeflip.wsgi'] ],
-    notify      => Service['edgeflip'],
+    notify      => Service['apache2'],
   }
 
   rsyslog::importconfig { 'edgeflip':
