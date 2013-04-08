@@ -94,7 +94,7 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
 }
 
 # APP NODES
-node /^edgeflip-staging-fjiiuyyserwse.*$/ inherits apache_modwsgi {
+node /^eflip-staging-fjierwse.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
     class { 'base': production => $production }
@@ -103,7 +103,7 @@ node /^edgeflip-staging-fjiiuyyserwse.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-node /^edgeflip-fjiiuyyserwse.*$/ inherits apache_modwsgi {
+node /^eflip-fjierwse.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
