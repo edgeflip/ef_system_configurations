@@ -54,12 +54,20 @@ class apps::edgeflip ( $env='production' ) {
     source  => 'puppet:///modules/apps/edgeflip/fix-perms.sh',
   }
 
+  file { '/var/www/edgeflip/edgeflip/config.py':
+    ensure  => file,
+    mode    => "0755",
+    source  => '/root/creds/app/config.py',
+    notify  => Exec['fix_perms'],
+  }
+
   exec { 'fix_perms':
     command     => '/opt/fix-perms.sh',
     refreshonly => true,
     require     => [ Package['edgeflip'],
                      File['/opt/fix-perms.sh'],
-                     File['/var/www/edgeflip/edgeflip.wsgi'] ],
+                     File['/var/www/edgeflip/edgeflip.wsgi'],
+                     File['/var/www/edgeflip/edgeflip/config.py'] ],
     notify      => Service['apache2'],
   }
 
