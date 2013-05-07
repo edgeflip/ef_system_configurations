@@ -15,14 +15,6 @@ class apps::edgeflip ( $env='production' ) {
     require => Package['edgeflip'],
   }
 
-  file { "/var/www/edgeflip/edgeflip.wsgi":
-    ensure  => file,
-    mode    => "0644",
-    source  => "puppet:///modules/apps/edgeflip/edgeflip.wsgi",
-    require => Package['edgeflip'],
-    notify  => Exec['fix_perms'],
-  }
-
   package { 'edgeflip':
     ensure  => latest,
     require => [ Package['python-pip'],
