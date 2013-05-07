@@ -21,7 +21,7 @@ class apps::edgeflip ( $env='production' ) {
                  Package['python-dev'],
                  Package['gcc'],
                  Package['python-mysqldb'] ],
-    notify  => Exec['fix_perms'],
+    notify  => [ Exec['fix_perms'], Exec['move_configs'], ],
   }
 
   package { 'python-pip':
@@ -46,20 +46,18 @@ class apps::edgeflip ( $env='production' ) {
     source  => 'puppet:///modules/apps/edgeflip/fix-perms.sh',
   }
 
-  file { '/var/www/edgeflip/edgeflip/config.py':
-    ensure  => file,
-    mode    => "0755",
-    source  => '/root/creds/app/config.py',
-    notify  => Exec['fix_perms'],
+  exec { 'move_configs':
+    command     => '/usr/bin/sudo /bin/cp /root/creds/app/* /var/www/edgeflip/edgeflip/conf.d/',
+    refreshonly => true,
+    require     => Package['edgeflip'],
+    notify      => [ Service['apache2'], Exec['fix_perms'], ]
   }
 
   exec { 'fix_perms':
     command     => '/opt/fix-perms.sh',
     refreshonly => true,
     require     => [ Package['edgeflip'],
-                     File['/opt/fix-perms.sh'],
-                     File['/var/www/edgeflip/edgeflip.wsgi'],
-                     File['/var/www/edgeflip/edgeflip/config.py'] ],
+                     File['/opt/fix-perms.sh'] ],
     notify      => Service['apache2'],
   }
 
