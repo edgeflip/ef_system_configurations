@@ -20,28 +20,8 @@ class apps::edgeflip ( $env='production' ) {
     require => [ Package['python-pip'],
                  Package['python-dev'],
                  Package['gcc'],
-                 Package['python-mysqldb'],
-                 Package['build-essential'],
-                 Package['libmysqlclient-dev'],
-                 Package['virtualenvwrapper'],
-                 Package['graphviz'], ],
+                 Package['python-mysqldb'] ],
     notify  => [ Exec['fix_perms'], Exec['move_configs'], ],
-  }
-
-  package { 'build-essential':
-    ensure  => installed,
-  }
-
-  package { 'graphviz':
-    ensure  => installed,
-  }
-
-  package { 'libmysqlclient-dev':
-    ensure  => installed,
-  }
-
-  package { 'virtualenvwrapper':
-    ensure  => installed,
   }
 
   package { 'python-pip':
