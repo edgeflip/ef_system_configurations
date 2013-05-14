@@ -1,24 +1,19 @@
-<VirtualHost *:80>
+<VirtualHost *>
     ServerName <%= edgeflip_hostname %>
-    ServerAdmin devops@edgeflip.com
 
     DocumentRoot /var/www/edgeflip
 
-    LogLevel info
-        ErrorLog syslog:local6
-
-    CustomLog "|/usr/bin/logger -t <%= edgeflip_hostname %> -p news.info" xff_syslog_api
-    CustomLog /var/log/apache2/syslog xff_api
-
-
-    <Directory /var/www/edgeflip>
-        Options -Indexes FollowSymLinks MultiViews
-        AllowOverride All
-        Order allow,deny
-        allow from all
-    </Directory>
-
-    WSGIDaemonProcess edgeflip processes=2 threads=50
+    WSGIDaemonProcess edgeflip threads=5
     WSGIScriptAlias / /var/www/edgeflip/edgeflip.wsgi
 
+    LogLevel info
+    ErrorLog "/var/log/apache2/error.log"
+    CustomLog "/var/log/apache2/access.log" combined
+
+    <Directory /var/www/edgeflip>
+        WSGIProcessGroup edgeflip
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
 </VirtualHost>
