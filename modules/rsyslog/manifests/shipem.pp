@@ -1,4 +1,4 @@
-class rsyslog::shipem ($syslog_host='log.efprod.com', $syslog_port='1515',
+class rsyslog::shipem ($syslog_host='loggins.efprod.com', $syslog_port='514',
                        $transport='tcp') {
 
   file { "/etc/rsyslog.d/02-ship-remote.conf":
