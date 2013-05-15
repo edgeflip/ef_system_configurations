@@ -1,4 +1,4 @@
-# Standardized log formats for OFA apps. Shared between nginx/Apache
+# Standardized log formats for mofo apps. Shared between nginx/Apache
 #
 # xff_combined: modification of std combined to include request time (in ms)
 # xff_syslog_combined: same, but remove timestamp (redundant with syslog)
@@ -7,5 +7,5 @@
 #LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 LogFormat "%{X-Forwarded-For}i %h %u %t \"%r\" %>s %D \"%{Referer}i\" \"%{User-Agent}i\"" xff_combined
 LogFormat "%{X-Forwarded-For}i %h %u \"%r\" %>s %D \"%{Referer}i\" \"%{User-Agent}i\"" xff_syslog_combined
-LogFormat "%{X-Forwarded-For}i %h %u [%>s] %m %U %D \"%{Referer}i\" \"%{User-Agent}i\"" xff_syslog_api
-LogFormat "%t %{X-Forwarded-For}i %h %u [%>s] %m %U %D \"%{Referer}i\" \"%{User-Agent}i\"" xff_api
+LogFormat "%t IP=\"%{X-Forwarded-For}i\" app=\"%v\" REMOTEHOST=\"%h\" %u RETURN_CODE=\"%s\" METHOD=\"%m\" URL=\"%U\" TIMING=\"%D\" REFERER=\"%{Referer}i\" USER_AGENT=\"%{User-Agent}i\"" xff_syslog_api
+LogFormat "%t IP=\"%{X-Forwarded-For}i\" REMOTEHOST=\"%h\" %u RETURN_CODE=\"%s\" METHOD=\"%m\" URL=\"%U\" TIMING=\"%D\" REFERER=\"%{Referer}i\" USERAGENT=\"%{User-Agent}i\"" xff_api

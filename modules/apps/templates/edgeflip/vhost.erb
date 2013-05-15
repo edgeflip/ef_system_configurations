@@ -7,8 +7,8 @@
     WSGIScriptAlias / /var/www/edgeflip/edgeflip.wsgi
 
     LogLevel info
-    ErrorLog "/var/log/apache2/error.log"
-    CustomLog "/var/log/apache2/access.log" combined
+    CustomLog "|/usr/bin/logger -t app='<%= edgeflip_hostname %>' -p news.info" xff_syslog_api
+    CustomLog /var/log/apache2/syslog xff_api
 
     <Directory /var/www/edgeflip>
         WSGIProcessGroup edgeflip
