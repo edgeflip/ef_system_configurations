@@ -66,6 +66,16 @@ class apps::edgeflip ( $env='production' ) {
     source  => 'puppet:///modules/apps/edgeflip/fix-perms.sh',
   }
 
+  file { '/var/www/edgeflip/newrelic.ini':
+    ensure  => file,
+    mode    => "0755",
+    source  => '/root/creds/app/newrelic.ini',
+    owner   => 'www-data',
+    group   => 'www-data',
+    notify  => Service['apache2'],
+    require => Package['edgeflip'],
+  }
+
   exec { 'move_configs':
     command     => '/usr/bin/sudo /bin/cp /root/creds/app/* /var/www/edgeflip/edgeflip/conf.d/',
     refreshonly => true,
