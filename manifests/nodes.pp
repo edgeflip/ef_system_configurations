@@ -2,7 +2,7 @@ class base ( $production = true, $env = 'production' ) {
     if $production {
       include env::production
       #TODO: Setup shipem
-      #class { 'rsyslog::shipem': syslog_port => '1514' }
+      class { 'rsyslog::shipem': syslog_port => '514' }
     } else {
         $staging = true
     }
@@ -27,7 +27,7 @@ class base ( $production = true, $env = 'production' ) {
       if !$production {
         # for testing in staging only
         include env::staging
-        #class { 'rsyslog::shipem': syslog_port => '1515' }
+        class { 'rsyslog::shipem': syslog_port => '514' }
 
       }
     }
