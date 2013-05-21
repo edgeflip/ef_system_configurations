@@ -18,13 +18,13 @@ class creds::app ( $env='staging', $app='geppetto',
   exec { 'get_app_creds':
     command     => "/usr/bin/s3cmd get --recursive --force -c ${s3cfg} ${source} /root/creds/app",
     require     => [ Exec['install_s3cmd'], File['/root/creds/app'], ],
-    refreshonly => true,
     notify      => Exec['inject_authorized_sshkeys'],
   }
 
   exec { 'inject_authorized_sshkeys':
     command  => "/bin/cat /root/creds/app/authorized_sshkeys >> /home/ubuntu/.ssh/authorized_keys",
     require  => Exec['get_app_creds'],
+    unless      => "/bin/grep specific /home/ubuntu/.ssh/authorized_keys",
     refreshonly => true,
     }
 }
