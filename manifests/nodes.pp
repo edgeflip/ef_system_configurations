@@ -103,11 +103,11 @@ node /^eflip-staging-fjierwse.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-node /^eflip-fjierwse.*$/ inherits apache_modwsgi {
+node /^demandaction-fjierwse.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps::edgeflip': env => $env }
+    class { 'apps::edgeflip': env => $env, client => 'demandaction' }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
