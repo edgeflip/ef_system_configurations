@@ -25,7 +25,8 @@ class apps::edgeflipcelery ( $env='production' ) {
                  Package['libmysqlclient-dev'],
                  Package['virtualenvwrapper'],
                  Package['graphviz'], ],
-    notify  => [ Exec['fix_perms'], Exec['move_configs'], ],
+    notify  => [ Exec['fix_perms'],
+                 Exec['move_configs'], ],
   }
 
   package { 'build-essential':
@@ -133,12 +134,15 @@ class apps::edgeflipcelery ( $env='production' ) {
   }
 
   Service { 'celeryd':
-    ensure  => running,
-    require => [ File['/etc/default/celeryd'],
-                 File['/etc/init.d/celeryd'],
-                 File['/var/run/celery'],
-                 File['/var/log/celery'], ],
-    notify  => Service['apache2'],
+    ensure     => running,
+    hasstatus  => true,
+    hasrestart => true,
+    require    => [ File['/etc/default/celeryd'],
+                    File['/etc/init.d/celeryd'],
+                    File['/var/run/celery'],
+                    File['/var/log/celery'], ],
+    notify     => Service['apache2'],
+    status     => "/etc/init.d/celeryd status",
   }
 
   exec { 'fix_perms':
