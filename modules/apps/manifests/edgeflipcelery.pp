@@ -83,6 +83,64 @@ class apps::edgeflipcelery ( $env='production' ) {
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
   }
 
+  # Celery related items
+  group { 'celery':
+    system  => true,
+  }
+
+  user { 'celery':
+    system   => true,
+    gid      => 'celery',
+    require  => Group['celery'],
+  }
+
+  file { '/var/run/celery':
+    ensure  => directory,
+    owner   => 'celery',
+    group   => 'celery',
+    require => User['celery'],
+  }
+
+  file { '/var/log/celery':
+    ensure  => directory,
+    owner   => 'celery',
+    group   => 'celery',
+    require => User['celery'],
+  }
+
+  file { '/etc/default/celeryd':
+    ensure  => file,
+    source  => '/var/www/edgeflipcelery/scripts/celeryd.conf',
+    require => [ Package['edgeflipcelery'],
+                 Package['rabbitmq-server'], ],
+    notify  => Service['celeryd'],
+  }
+
+  file { "/etc/init.d/celeryd":
+    ensure  => link,
+    target  => "/var/www/edgeflipcelery/scripts/celery/celeryd",
+    require => [ Package['rabbitmq-server'],
+                 Package['edgeflipcelery'], ],
+    notify  => Service['celeryd'],
+  }
+
+  file { '/etc/default/celeryd':
+    ensure  => file,
+    source  => '/var/www/edgeflipcelery/scripts/celeryd.conf',
+    require => [ Package['edgeflipcelery'],
+                 Package['rabbitmq-server'], ],
+    notify  => Service['celeryd'],
+  }
+
+  Service { 'celeryd':
+    ensure  => running,
+    require => [ File['/etc/default/celeryd'],
+                 File['/etc/init.d/celeryd'],
+                 File['/var/run/celery'],
+                 File['/var/log/celery'], ],
+    notify  => Service['apache2'],
+  }
+
   exec { 'fix_perms':
     command     => '/opt/fix-perms.sh',
     refreshonly => true,
