@@ -111,3 +111,14 @@ node /^eflip-fjierwse.*$/ inherits apache_modwsgi {
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
+
+node /^eflipcel-staging-frwse.*$/ inherits apache_modwsgi {
+    $production = false
+    $env = 'staging'
+    class { 'base': production => $production }
+    class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
+                        newvhost => "edgehost" }
+    class { 'apps::edgeflipcelery': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
