@@ -125,14 +125,6 @@ class apps::edgeflipcelery ( $env='production' ) {
     notify  => Service['celeryd'],
   }
 
-  file { '/etc/default/celeryd':
-    ensure  => file,
-    source  => '/var/www/edgeflipcelery/scripts/celeryd.conf',
-    require => [ Package['edgeflipcelery'],
-                 Package['rabbitmq-server'], ],
-    notify  => Service['celeryd'],
-  }
-
   service { 'celeryd':
     ensure     => running,
     hasstatus  => true,
