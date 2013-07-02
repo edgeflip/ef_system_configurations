@@ -86,10 +86,12 @@ class apps::edgeflipcelery ( $env='production' ) {
 
   # Celery related items
   group { 'celery':
+    ensure  => present,
     system  => true,
   }
 
   user { 'celery':
+    ensure   => present,
     system   => true,
     gid      => 'celery',
     require  => Group['celery'],
