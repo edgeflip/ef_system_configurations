@@ -12,4 +12,4 @@ import edgeflip.web
 application = edgeflip.web.getApp()
 
 if config.newrelic.enabled:
-    application = newrelic.agent.wsgi_application()(application)(edgeflip)
+    application = newrelic.agent.wsgi_application()(application)
