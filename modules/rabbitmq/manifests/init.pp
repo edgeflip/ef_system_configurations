@@ -11,7 +11,7 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   }
 
   exec { 'add_new_user':
-    command     => '/usr/sbin/rabbitmqctl add_user $newuser $newpass',
+    command     => "/usr/sbin/rabbitmqctl add_user $newuser $newpass",
     returns     => [ 0, 100 ],
     require     => [ Package['rabbitmq-server'],
                      Service['rabbitmq-server'], ],
@@ -20,7 +20,7 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   }
 
   exec { 'add_new_vhost':
-    command     => '/usr/sbin/rabbitmqctl add_vhost $newvhost',
+    command     => "/usr/sbin/rabbitmqctl add_vhost $newvhost",
     returns     => [ 0, 100 ],
     require     => [ Package['rabbitmq-server'],
                      Service['rabbitmq-server'],
@@ -30,7 +30,7 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   }
 
   exec { 'add_new_permissions':
-    command     => '/usr/sbin/rabbitmqctl set_permissions -p edgehost edgeflip \".*\" \".*\" \".*\"',
+    command     => "/usr/sbin/rabbitmqctl set_permissions -p edgehost edgeflip \".*\" \".*\" \".*\"",
     returns     => [ 0, 100 ],
     require     => [ Package['rabbitmq-server'],
                      Service['rabbitmq-server'],
