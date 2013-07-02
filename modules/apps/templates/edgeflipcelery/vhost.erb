@@ -6,7 +6,9 @@
     WSGIDaemonProcess edgeflip threads=5
     WSGIScriptAlias / /var/www/edgeflipcelery/edgeflip.wsgi
 
-    LogLevel info
+    LogLevel debug
+        ErrorLog syslog:local6
+
     CustomLog "|/usr/bin/logger -t app='<%= edgeflipcelery_hostname %>' -p news.info" xff_syslog_api
     CustomLog /var/log/apache2/syslog xff_api
 

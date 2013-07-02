@@ -84,6 +84,14 @@ class apps::edgeflipcelery ( $env='production' ) {
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
   }
 
+  file { '/var/www/edgeflipcelery/edgeflip.wsgi':
+    ensure  => file,
+    mode    => "0755",
+    source  => 'puppet:///modules/apps/edgeflipcelery/edgeflip.wsgi',
+    notify  => Exec['fix_perms'],
+    require => Package['edgeflipcelery'],
+  }
+
   # Celery related items
   group { 'celery':
     ensure  => present,
