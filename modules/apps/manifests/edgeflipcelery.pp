@@ -133,15 +133,11 @@ class apps::edgeflipcelery ( $env='production' ) {
     notify  => Service['celeryd'],
   }
 
-  Service { 'celeryd':
+  service { 'celeryd':
     ensure     => running,
     hasstatus  => true,
     hasrestart => true,
-    require    => [ File['/etc/default/celeryd'],
-                    File['/etc/init.d/celeryd'],
-                    File['/var/run/celery'],
-                    File['/var/log/celery'], ],
-    notify     => Service['apache2'],
+    subscribe  => Service['rabbitmq-server'],
     status     => "/etc/init.d/celeryd status",
   }
 
