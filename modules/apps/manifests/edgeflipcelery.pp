@@ -113,7 +113,7 @@ class apps::edgeflipcelery ( $env='production' ) {
 
   file { '/etc/default/celeryd':
     ensure  => file,
-    source  => '/var/www/edgeflipcelery/scripts/celery/celeryd.conf',
+    source  => 'puppet:///modules/apps/edgeflipcelery/celeryd.conf',
     require => [ Package['edgeflipcelery'],
                  Package['rabbitmq-server'], ],
     notify  => Service['celeryd'],
