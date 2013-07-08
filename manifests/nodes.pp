@@ -130,7 +130,7 @@ node /^eflipcel-staging-celery.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-node /^eflipcel-rmq-staging.*$/ inherits apache_modwsgi {
+node /^eflipcel-staging-rmq.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
     class { 'base': production => $production }

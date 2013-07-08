@@ -143,7 +143,6 @@ class apps::edgeflipcelery ( $env='production', $nodetype='web' ) {
     }
   }
 
-
   exec { 'fix_perms':
     command     => '/opt/fix-perms.sh',
     refreshonly => true,
