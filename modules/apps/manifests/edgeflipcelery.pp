@@ -3,7 +3,7 @@ class apps::edgeflipcelery ( $env='production' ) {
   case $env {
     'production': {
       $edgeflipcelery_env='production'
-      $edgeflipcelery_hostname='www.edgeflipcelery.com'
+      $edgeflipcelery_hostname='www.edgeflip.com'
     } 'staging': {
       $edgeflipcelery_env='staging'
       $edgeflipcelery_hostname='edgeflipcelery.efstaging.com'
