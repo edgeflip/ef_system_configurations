@@ -1,9 +1,9 @@
-class apps::edgeflipcelery ( $env='production' ) {
+class apps::edgeflipcelery ( $env='production', $nodetype='web' ) {
 
   case $env {
     'production': {
       $edgeflipcelery_env='production'
-      $edgeflipcelery_hostname='www.edgeflipcelery.com'
+      $edgeflipcelery_hostname='www.edgeflip.com'
     } 'staging': {
       $edgeflipcelery_env='staging'
       $edgeflipcelery_hostname='edgeflipcelery.efstaging.com'
@@ -92,55 +92,55 @@ class apps::edgeflipcelery ( $env='production' ) {
     require => Package['edgeflipcelery'],
   }
 
-  # Celery related items
-  group { 'celery':
-    ensure  => present,
-    system  => true,
-  }
+  if $nodetype == 'celery' {
 
-  user { 'celery':
-    ensure   => present,
-    system   => true,
-    gid      => 'celery',
-    require  => Group['celery'],
-  }
+    # Celery related items
+    group { 'celery':
+      ensure  => present,
+      system  => true,
+    }
 
-  file { '/var/run/celery':
-    ensure  => directory,
-    owner   => 'celery',
-    group   => 'celery',
-    require => User['celery'],
-  }
+    user { 'celery':
+      ensure   => present,
+      system   => true,
+      gid      => 'celery',
+      require  => Group['celery'],
+    }
 
-  file { '/var/log/celery':
-    ensure  => directory,
-    owner   => 'celery',
-    group   => 'celery',
-    require => User['celery'],
-  }
+    file { '/var/run/celery':
+      ensure  => directory,
+      owner   => 'celery',
+      group   => 'celery',
+      require => User['celery'],
+    }
 
-  file { '/etc/default/celeryd':
-    ensure  => file,
-    source  => 'puppet:///modules/apps/edgeflipcelery/celeryd.conf',
-    require => [ Package['edgeflipcelery'],
-                 Package['rabbitmq-server'], ],
-    notify  => Service['celeryd'],
-  }
+    file { '/var/log/celery':
+      ensure  => directory,
+      owner   => 'celery',
+      group   => 'celery',
+      require => User['celery'],
+    }
 
-  file { "/etc/init.d/celeryd":
-    ensure  => link,
-    target  => "/var/www/edgeflipcelery/scripts/celery/celeryd",
-    require => [ Package['rabbitmq-server'],
-                 Package['edgeflipcelery'], ],
-    notify  => Service['celeryd'],
-  }
+    file { '/etc/default/celeryd':
+      ensure  => file,
+      source  => 'puppet:///modules/apps/edgeflipcelery/celeryd.conf',
+      require => Package['edgeflipcelery'],
+      notify  => Service['celeryd'],
+    }
 
-  service { 'celeryd':
-    ensure     => running,
-    hasstatus  => true,
-    hasrestart => true,
-    subscribe  => Service['rabbitmq-server'],
-    status     => "/etc/init.d/celeryd status",
+    file { "/etc/init.d/celeryd":
+      ensure  => link,
+      target  => "/var/www/edgeflipcelery/scripts/celery/celeryd",
+      require => Package['edgeflipcelery'],
+      notify  => Service['celeryd'],
+    }
+
+    service { 'celeryd':
+      ensure     => running,
+      hasstatus  => true,
+      hasrestart => true,
+      status     => "/etc/init.d/celeryd status",
+    }
   }
 
   exec { 'fix_perms':
