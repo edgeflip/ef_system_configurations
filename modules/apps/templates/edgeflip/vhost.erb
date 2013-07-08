@@ -3,10 +3,10 @@
 
     DocumentRoot /var/www/edgeflip
 
-    WSGIDaemonProcess edgeflip threads=5
+    WSGIDaemonProcess edgeflip threads=25 processes=4
     WSGIScriptAlias / /var/www/edgeflip/edgeflip.wsgi
 
-    LogLevel info
+    LogLevel debug
     CustomLog "|/usr/bin/logger -t app='<%= edgeflip_hostname %>' -p news.info" xff_syslog_api
     CustomLog /var/log/apache2/syslog xff_api
 
