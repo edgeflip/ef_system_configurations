@@ -140,3 +140,32 @@ node /^eflipcel-staging-rmq.*$/ inherits apache_modwsgi {
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
+
+node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::edgeflipcelery': env => $env, nodetype => "web" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+node /^eflip-production-celery.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::edgeflipcelery': env => $env, nodetype => "celery" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+node /^eflip-production-rmq.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
+                        newvhost => "edgehost" }
+    class { 'apps::edgeflipcelery': env => $env, nodetype => "rabbitmq" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
