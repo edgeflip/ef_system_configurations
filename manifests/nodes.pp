@@ -140,8 +140,6 @@ node /^eflipcel-staging-rmq.*$/ inherits apache_modwsgi {
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
-<<<<<<< HEAD
-=======
 
 node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
     $production = true
@@ -171,4 +169,4 @@ node /^eflip-production-rmq.*$/ inherits apache_modwsgi {
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
->>>>>>> morecelery
+
