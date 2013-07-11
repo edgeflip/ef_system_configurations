@@ -69,7 +69,6 @@ class apps::edgeflipcelery ( $env='production', $nodetype='web' ) {
 
   file { '/var/www/edgeflipcelery/newrelic.ini':
     ensure  => file,
-    mode    => "0755",
     source  => '/root/creds/app/celery/newrelic.ini',
     owner   => 'www-data',
     group   => 'www-data',
@@ -86,7 +85,8 @@ class apps::edgeflipcelery ( $env='production', $nodetype='web' ) {
 
   file { '/var/www/edgeflipcelery/edgeflip.wsgi':
     ensure  => file,
-    mode    => "0755",
+    owner   => 'www-data',
+    group   => 'www-data',
     source  => 'puppet:///modules/apps/edgeflipcelery/edgeflip.wsgi',
     notify  => Exec['fix_perms'],
     require => Package['edgeflipcelery'],
