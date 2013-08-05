@@ -8,7 +8,6 @@
 
     LogLevel debug
         ErrorLog syslog:local6
-        ErrorLog /var/log/apache2/errorz.log
 
     CustomLog "|/usr/bin/logger -t app='<%= edgeflipcelery_hostname %>' -p news.info" xff_syslog_api
     CustomLog /var/log/apache2/syslog xff_api
