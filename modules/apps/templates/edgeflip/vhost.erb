@@ -3,12 +3,16 @@
 
     DocumentRoot /var/www/edgeflip
 
-    WSGIDaemonProcess edgeflip threads=25 processes=4
-    WSGIScriptAlias / /var/www/edgeflip/edgeflip.wsgi
+    WSGIDaemonProcess edgeflip threads=5
+    WSGIScriptAlias / /var/www/edgeflip/edgeflip/wsgi.py
 
     LogLevel debug
+        ErrorLog syslog:local6
+
     CustomLog "|/usr/bin/logger -t app='<%= edgeflip_hostname %>' -p news.info" xff_syslog_api
     CustomLog /var/log/apache2/syslog xff_api
+
+   Alias /static /var/www/edgeflip/edgeflip/static
 
     <Directory /var/www/edgeflip>
         WSGIProcessGroup edgeflip
@@ -16,4 +20,10 @@
         Order deny,allow
         Allow from all
     </Directory>
+
+   <Directory /var/www/edgeflip/edgeflip/static>
+       Order allow,deny
+       Allow from all
+   </Directory>
+
 </VirtualHost>
