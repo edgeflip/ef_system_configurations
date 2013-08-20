@@ -112,6 +112,24 @@ node /^demandaction-fjierwse.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
+node /^edgeflip-staging-fjierwse.*$/ inherits apache_modwsgi {
+    $production = false
+    $env = 'staging'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+node /^edgeflip-fjierwse.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env, client => 'demandaction' }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
 node /^eflipcel-staging-frwse.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
