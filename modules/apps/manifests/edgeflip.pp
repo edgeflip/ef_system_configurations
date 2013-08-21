@@ -61,6 +61,11 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
   ensure    => installed,
   }
 
+  file { '/var/www/edgeflip/conf.d':
+    ensure  => directory,
+    require => Package['edgeflip'],
+  }
+
   file { '/opt/fix-perms.sh':
     ensure  => file,
     mode    => "0755",
@@ -79,7 +84,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
   exec { 'move_configs':
     command     => '/usr/bin/sudo /bin/cp -r /root/creds/app/* /var/www/edgeflip/conf.d/',
     refreshonly => true,
-    require     => Package['edgeflip'],
+    require     => [ Package['edgeflip'], File['/var/www/edgeflip/conf.d'], ],
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
   }
 
