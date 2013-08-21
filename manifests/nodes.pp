@@ -121,6 +121,26 @@ node /^edgeflip-staging-fjierwse.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
+node /^edgeflip-staging-celery-dfker.*$/ inherits apache_modwsgi {
+    $production = false
+    $env = 'staging'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env,  nodetype => "celery" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+node /^edgeflip-staging-rmq-dfker.*$/ inherits apache_modwsgi {
+    $production = false
+    $env = 'staging'
+    class { 'base': production => $production }
+    class { 'apps::edgeflip': env => $env,  nodetype => "celery" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+    class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
+                        newvhost => "edgehost" }
+}
+
 node /^edgeflip-fjierwse.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
