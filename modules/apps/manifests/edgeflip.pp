@@ -77,7 +77,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
   }
 
   exec { 'move_configs':
-    command     => '/usr/bin/sudo /bin/cp /root/creds/app/* /var/www/edgeflip/edgeflip/conf.d/',
+    command     => '/usr/bin/sudo /bin/cp -r /root/creds/app/* /var/www/edgeflip/edgeflip/conf.d/',
     refreshonly => true,
     require     => Package['edgeflip'],
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
