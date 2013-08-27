@@ -136,6 +136,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
       hasstatus  => true,
       hasrestart => true,
       status     => "/etc/init.d/celeryd status",
+      subscribe  => Service['apache2'],
     }
   }
 
