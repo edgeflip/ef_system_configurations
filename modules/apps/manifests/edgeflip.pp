@@ -126,7 +126,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
 
     file { "/etc/init.d/celeryd":
       ensure  => link,
-      target  => "/var/www/edgeflip/etc/celeryd",
+      target  => "/var/www/edgeflip/edgeflip/etc/celeryd",
       require => Package['edgeflip'],
       notify  => Service['celeryd'],
     }
