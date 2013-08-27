@@ -64,6 +64,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
   file { '/var/www/edgeflip/conf.d':
     ensure  => directory,
     require => Package['edgeflip'],
+    notify  => Exec['move_configs'],
   }
 
   file { '/opt/fix-perms.sh':
