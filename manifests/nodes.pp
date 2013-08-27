@@ -134,7 +134,7 @@ node /^edgeflip-staging-rmq-dfker.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
     class { 'base': production => $production }
-    class { 'apps::edgeflip': env => $env,  nodetype => "celery" }
+    class { 'apps::edgeflip': env => $env,  nodetype => "rabbitmq" }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
     class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
