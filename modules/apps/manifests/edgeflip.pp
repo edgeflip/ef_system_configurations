@@ -64,6 +64,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
   file { '/var/www/edgeflip/conf.d':
     ensure  => directory,
     require => Package['edgeflip'],
+    notify  => Exec['move_configs'],
   }
 
   file { '/opt/fix-perms.sh':
@@ -126,7 +127,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
 
     file { "/etc/init.d/celeryd":
       ensure  => link,
-      target  => "/var/www/edgeflip/scripts/celery/celeryd",
+      target  => "/var/www/edgeflip/edgeflip/etc/celeryd",
       require => Package['edgeflip'],
       notify  => Service['celeryd'],
     }
@@ -136,6 +137,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
       hasstatus  => true,
       hasrestart => true,
       status     => "/etc/init.d/celeryd status",
+      subscribe  => Service['apache2'],
     }
   }
 
