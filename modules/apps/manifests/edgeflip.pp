@@ -29,6 +29,12 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
                  Exec['move_configs'], ],
   }
 
+  file { '/var/www/edgeflip/edgeflip/static/js/create_frame.js':
+    ensure  => link,
+    target  => "/var/www/edgeflip/static/create_frame.js",
+    notify  => Exec['fix_perms'],
+  }
+
   package { 'build-essential':
     ensure  => installed,
   }
