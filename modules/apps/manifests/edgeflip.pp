@@ -120,7 +120,7 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
 
     file { '/etc/default/celeryd':
       ensure  => file,
-      source  => 'puppet:///modules/apps/edgeflip/celeryd.conf',
+      source  => 'puppet:///modules/apps/edgeflip/main_celeryd.conf',
       require => Package['edgeflip'],
       notify  => Service['celeryd'],
     }
