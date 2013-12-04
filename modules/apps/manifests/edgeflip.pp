@@ -1,19 +1,4 @@
-class apps::edgeflip ( $env='production', $nodetype='web' ) {
-
-  case $env {
-    'production': {
-      $edgeflip_env='production'
-      $edgeflip_hostname='www.edgeflip.com'
-    } 'staging': {
-      $edgeflip_env='staging'
-      $edgeflip_hostname='edgeflip.efstaging.com'
-    }
-  }
-
-  apache2::templatevhost { "$edgeflip_hostname":
-    content => template('apps/edgeflip/vhost.erb'),
-    require => Package['edgeflip'],
-  }
+class apps::baseflip {
 
   package { 'edgeflip':
     ensure  => latest,
@@ -89,7 +74,57 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
   }
 
-  if $nodetype == 'celery' {
+  exec { 'fix_perms':
+    command     => '/opt/fix-perms.sh',
+    refreshonly => true,
+    require     => [ Package['edgeflip'],
+                     File['/opt/fix-perms.sh'] ],
+    notify      => Service['apache2'],
+  }
+
+  rsyslog::importconfig { 'edgeflip':
+    source => 'puppet:///modules/apps/edgeflip/rsyslog.conf',
+  }
+
+}
+
+class apps::webflip ( $env='production' ) {
+
+  include apps::baseflip
+  case $env {
+    'production': {
+      $edgeflip_env='production'
+      $edgeflip_hostname='www.edgeflip.com'
+    } 'staging': {
+      $edgeflip_env='staging'
+      $edgeflip_hostname='edgeflip.efstaging.com'
+    }
+  }
+
+  apache2::templatevhost { "$edgeflip_hostname":
+    content => template('apps/edgeflip/vhost.erb'),
+    require => Package['edgeflip'],
+  }
+}
+
+
+class apps::celeryflip ( $env='production', $celerytype='standard' ) {
+
+  include apps::baseflip
+  case $env {
+    'production': {
+      $edgeflip_env='production'
+      $edgeflip_hostname='www.edgeflip.com'
+    } 'staging': {
+      $edgeflip_env='staging'
+      $edgeflip_hostname='edgeflip.efstaging.com'
+    }
+  }
+
+  apache2::templatevhost { "$edgeflip_hostname":
+    content => template('apps/edgeflip/vhost.erb'),
+    require => Package['edgeflip'],
+  }
 
     # Celery related items
     group { 'celery':
@@ -118,11 +153,20 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
       require => User['celery'],
     }
 
-    file { '/etc/default/celeryd':
-      ensure  => file,
-      source  => 'puppet:///modules/apps/edgeflip/main_celeryd.conf',
-      require => Package['edgeflip'],
-      notify  => Service['celeryd'],
+    if $celerytype == 'standard' {
+        file { '/etc/default/celeryd':
+          ensure  => file,
+          source  => 'puppet:///modules/apps/edgeflip/main_celeryd.conf',
+          require => Package['edgeflip'],
+          notify  => Service['celeryd'],
+        }
+    } else {
+        file { '/etc/default/celeryd':
+          ensure  => file,
+          source  => 'puppet:///modules/apps/edgeflip/fb_sync_celeryd.conf',
+          require => Package['edgeflip'],
+          notify  => Service['celeryd'],
+        }
     }
 
     file { "/etc/init.d/celeryd":
@@ -139,17 +183,4 @@ class apps::edgeflip ( $env='production', $nodetype='web' ) {
       status     => "/etc/init.d/celeryd status",
       subscribe  => Service['apache2'],
     }
-  }
-
-  exec { 'fix_perms':
-    command     => '/opt/fix-perms.sh',
-    refreshonly => true,
-    require     => [ Package['edgeflip'],
-                     File['/opt/fix-perms.sh'] ],
-    notify      => Service['apache2'],
-  }
-
-  rsyslog::importconfig { 'edgeflip':
-    source => 'puppet:///modules/apps/edgeflip/rsyslog.conf',
-  }
 }
