@@ -97,6 +97,8 @@ node /^eflip-sentry.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
 }
 
 # APP NODES
