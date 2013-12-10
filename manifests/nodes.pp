@@ -93,6 +93,12 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
     class { 'roles::logger': }
 }
 
+node /^eflip-sentry.*$/ {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+}
+
 # APP NODES
 # STAGING
 # Web
