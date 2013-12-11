@@ -66,6 +66,13 @@ node apache_modwsgi {
     apache2::mods::disable { 'ssl': }
 }
 
+node apache_proxy {
+    include apache2
+    include apache2::mods::standard
+    apache2::mods::enable { 'proxy': }
+    apache2::mods::enable { 'proxy_http': }
+}
+
 node /^base-ddreigjjkeewe.*$/ {
     $production = false
     class { 'base': production => $production }
@@ -93,7 +100,7 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
     class { 'roles::logger': }
 }
 
-node /^eflip-sentry.*$/ {
+node /^eflip-sentry.*$/ inherits apache_proxy {
     $production = true
     $env = 'production'
     class { 'base': production => $production }

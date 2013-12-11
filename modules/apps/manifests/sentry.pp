@@ -48,7 +48,7 @@ class apps::sentry {
     file { 'sentry_conf':
         ensure => file,
         path   => '/etc/sentry.conf.py',
-        source => 'puppet:///modules/apps/sentry/staging_sentry.conf.py',
+        source => 'puppet:///modules/apps/sentry/prod_sentry.conf.py',
     }
 
     file { 'staging_supervisor':
@@ -63,7 +63,7 @@ class apps::sentry {
         ensure  => file,
         path    => '/etc/supervisor/conf.d/sentry.conf',
         source  => 'puppet:///modules/apps/sentry/prod_sentry_supervisor.conf',
-        require => [ Exec['install_sentry'], Package['supervisor'], File['sentry_conf'] ]
+        require => [ Exec['install_sentry'], Package['supervisor'], File['sentry_conf'] ],
         notify  => [ Service['supervisor'] ]
     }
 
@@ -72,5 +72,33 @@ class apps::sentry {
       hasstatus  => true,
       hasrestart => true,
       status     => "/etc/init.d/supervisor status",
+    }
+
+    file { '/etc/apache2/sites-available/staging_apache_conf':
+        ensure  => file,
+        path    => '/etc/apache2/sites-available/staging_sentry.conf',
+        source  => 'puppet:///modules/apps/sentry/staging_sentry_apache.conf',
+        require => [ Package['apache2'] ]
+    }
+
+    file { '/etc/apache2/sites-enabled/staging_apache.conf':
+        ensure  => link,
+        target  => '/etc/apache2/sites-available/staging_sentry.conf',
+        require => File['/etc/apache2/sites-available/staging_apache_conf'],
+        notify  => Service['apache2']
+    }
+
+    file { '/etc/apache2/sites-available/prod_apache_conf':
+        ensure  => file,
+        path    => '/etc/apache2/sites-available/prod_sentry.conf',
+        source  => 'puppet:///modules/apps/sentry/prod_sentry_apache.conf',
+        require => [ Package['apache2'] ]
+    }
+
+    file { '/etc/apache2/sites-enabled/prod_apache.conf':
+        ensure  => link,
+        target  => '/etc/apache2/sites-available/prod_sentry.conf',
+        require => File['/etc/apache2/sites-available/prod_apache_conf'],
+        notify  => Service['apache2']
     }
 }
