@@ -100,6 +100,7 @@ SENTRY_WEB_OPTIONS = {
     'limit_request_line': 0,  # required for raven-js
     'secure_scheme_headers': {'X-FORWARDED-PROTO': 'https'},
 }
+ALLOWED_HOSTS = ['localhost', 'sentry.efprod.com', '*']
 
 #################
 ## Mail Server ##

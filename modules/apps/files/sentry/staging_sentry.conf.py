@@ -100,6 +100,7 @@ SENTRY_WEB_OPTIONS = {
     'limit_request_line': 0,  # required for raven-js
     'secure_scheme_headers': {'X-FORWARDED-PROTO': 'https'},
 }
+ALLOWED_HOSTS = ['localhost', 'sentry.efstaging.com', '*']
 
 #################
 ## Mail Server ##
@@ -117,7 +118,7 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = False
 
 # The email address to send on behalf of
-SERVER_EMAIL = 'sentry+prod@localhost'
+SERVER_EMAIL = 'sentry+staging@localhost'
 
 ###########
 ## etc. ##
