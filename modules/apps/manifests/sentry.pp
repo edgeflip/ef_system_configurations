@@ -27,11 +27,16 @@ class apps::sentry {
         require => [ Package['python-virtualenv'], Exec['create_path'] ],
     }
 
+    exec { 'upgrade_distribute':
+        command => "$venv_path/bin/easy_install -U distribute"
+        require => [ Exec['build_venv'] ]
+    }
+
     file { 'requirements':
         ensure  => file,
         path    => "$venv_path/requirements.txt",
         source  => 'puppet:///modules/apps/sentry/requirements.txt',
-        require => [ Exec['build_venv'] ]
+        require => [ Exec['upgrade_distribute'] ]
     }
 
     exec { 'install_sentry':
