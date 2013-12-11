@@ -97,7 +97,7 @@ node /^eflip-sentry.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps:sentry': }
+    class { 'apps::sentry': }
 }
 
 # APP NODES
