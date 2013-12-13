@@ -18,6 +18,10 @@ class apps::baseflip {
     ensure  => installed,
   }
 
+  package { 'mysql-client':
+    ensure  => installed,
+  }
+
   package { 'graphviz':
     ensure  => installed,
   }
