@@ -162,12 +162,22 @@ node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-# Celery
+# User Facing Celery
 node /^eflip-production-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps::celeryflip': env => $env }
+    class { 'apps::celeryflip': env => $env, celerytype => "user_facing" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+# Background Celery
+node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::celeryflip': env => $env, celerytype => "background" }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
