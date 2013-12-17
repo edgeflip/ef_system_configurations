@@ -124,7 +124,7 @@ node /^edgeflip-staging-celery-dfker.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
     class { 'base': production => $production }
-    class { 'apps::celeryflip': env => $env }
+    class { 'apps::celeryflip': env => $env, celerytype => "full_stack" }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }
