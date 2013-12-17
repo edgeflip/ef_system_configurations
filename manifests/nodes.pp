@@ -173,7 +173,7 @@ node /^eflip-production-celery.*$/ inherits apache_modwsgi {
 }
 
 # Background Celery
-node /^eflip-production-celery-background.*$/ inherits apache_modwsgi {
+node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
