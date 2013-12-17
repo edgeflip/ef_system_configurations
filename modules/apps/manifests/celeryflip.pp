@@ -24,7 +24,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $queues='px3,px3_filter,px4,celery'
       } 'fbsync': {
           # Feed crawler
-          $queues='bg_px4,user_feeds,process_sync,celery',
+          $queues='bg_px4,user_feeds,process_sync,celery'
       } 'full_stack': {
           # Feed crawler + mixed
           $queues='bg_px4,user_feeds,process_sync,bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,celery'
