@@ -66,7 +66,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
     file { '/etc/default/celeryd' :
         ensure   => file,
         content  => template('apps/edgeflip/celeryd_template.erb'),
-        required => Package['edgeflip'],
+        require => Package['edgeflip'],
         notify   => Service['celeryd'],
     }
 
