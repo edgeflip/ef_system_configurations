@@ -1,4 +1,4 @@
-class apps::celeryflip ( $env='production', $celerytype='standard' ) {
+class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
 
   include apps::baseflip
   case $env {
@@ -9,6 +9,26 @@ class apps::celeryflip ( $env='production', $celerytype='standard' ) {
       $edgeflip_env='staging'
       $edgeflip_hostname='edgeflip.efstaging.com'
     }
+  }
+
+  case $celerytype {
+      'mixed': {
+          # Mixes background and front facing queues, mainly for staging
+          # Later may fold fbsync processes into here as well
+          $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,celery'
+      } 'background': {
+          # Background jobs such as saving to the database
+          $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,celery'
+      } 'user_facing': {
+          # Tasks that need to be completed for the user to get a response
+          $queues='px3,px3_filter,px4,celery'
+      } 'fbsync': {
+          # Feed crawler
+          $queues='bg_px4,user_feeds,process_sync,celery',
+      } 'full_stack': {
+          # Feed crawler + mixed
+          $queues='bg_px4,user_feeds,process_sync,bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,celery'
+      }
   }
 
   apache2::templatevhost { "$edgeflip_hostname":
@@ -43,20 +63,11 @@ class apps::celeryflip ( $env='production', $celerytype='standard' ) {
       require => User['celery'],
     }
 
-    if $celerytype == 'standard' {
-        file { '/etc/default/celeryd':
-          ensure  => file,
-          source  => 'puppet:///modules/apps/edgeflip/main_celeryd.conf',
-          require => Package['edgeflip'],
-          notify  => Service['celeryd'],
-        }
-    } else {
-        file { '/etc/default/celeryd':
-          ensure  => file,
-          source  => 'puppet:///modules/apps/edgeflip/fb_sync_celeryd.conf',
-          require => Package['edgeflip'],
-          notify  => Service['celeryd'],
-        }
+    file { '/etc/default/celeryd' :
+        ensure   => file,
+        content  => template('apps/edgeflip/celeryd_template.erb'),
+        required => Package['edgeflip'],
+        notify   => Service['celeryd'],
     }
 
     file { "/etc/init.d/celeryd":
