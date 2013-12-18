@@ -11,7 +11,6 @@ class sentry ($venv_path = '/var/www/sentry') {
         'python-mysqldb',
         'postfix',
         'mysql-client-core-5.5',
-        'supervisor'
         ]:
         ensure => installed
     }

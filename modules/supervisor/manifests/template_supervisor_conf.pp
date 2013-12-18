@@ -4,7 +4,7 @@ define supervisor::template_supervisor_conf ( $appname, $directory, $command,
     file { "/etc/supervisor/conf.d/$name.conf":
         ensure  => file,
         content => template('supervisor/supervisor/supervisor_conf.erb'),
-        require => [Package['supervisor'], Service['supervisor']],
+        require => [Package['supervisor']],
         notify  => Service['supervisor'],
     }
 }
