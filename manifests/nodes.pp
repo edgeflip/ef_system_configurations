@@ -103,8 +103,9 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
 node /^eflip-sentry.*$/ inherits apache_proxy {
     $production = true
     $env = 'production'
+    include supervisor
     class { 'base': production => $production }
-    class { 'apps::sentry': }
+    class { 'sentry': }
 }
 
 # APP NODES
