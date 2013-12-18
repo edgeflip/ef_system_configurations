@@ -1,0 +1,2 @@
+sentry==6.4.2.1
+MySQL-python==1.2.4

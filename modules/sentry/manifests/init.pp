@@ -28,7 +28,7 @@ class sentry ($venv_path = '/var/www/sentry') {
     file { 'requirements':
         ensure  => file,
         path    => "$venv_path/requirements.txt",
-        source  => 'puppet:///modules/apps/sentry/requirements.txt',
+        source  => 'puppet:///modules/sentry/sentry/requirements.txt',
         require => [ Exec['build_venv'] ]
     }
 
