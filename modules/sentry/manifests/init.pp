@@ -60,6 +60,18 @@ class sentry ($venv_path = '/var/www/sentry') {
     }
 
     sentry::sentry_conf_template { 'staging_sentry':
+        dbname       => 'sentry_staging',
+        dbuser       => 'sentry_staging',
+        dbpass       => 'xnXxefeu8oT4TR',
+        dbhost       => 'sentry-db.efstaging.com',
+        dbport       => 3306,
+        url          => 'sentry.efstaging.com',
+        port         => 9090,
+        server_email => 'sentry+staging@localhost',
+        secret_key   => '664BhTrE4mkz80O/qWtbfFQgI5FZwkiSWGXI8CE+HFiqjZty0tV9aw=='
+    }
+
+    sentry::sentry_conf_template { 'sentry':
         dbname       => 'sentry_prod',
         dbuser       => 'sentry',
         dbpass       => 'tVZjigd3ZBon3B',
@@ -71,16 +83,5 @@ class sentry ($venv_path = '/var/www/sentry') {
         secret_key   => 'tWCZVg+dwVBsnbldhX0nA6fG62wBAF+Gz39FK6L4JQsXJozZxZa2gA=='
     }
 
-    sentry::sentry_conf_template { 'sentry':
-        dbname       => 'sentry_staging',
-        dbuser       => 'sentry_staging',
-        dbpass       => 'xnXxefeu8oT4TR',
-        dbhost       => 'sentry-db.efstaging.com',
-        dbport       => 3306,
-        url          => 'sentry.efstaging.com',
-        port         => 9090,
-        server_email => 'sentry+staging@localhost',
-        secret_key   => '664BhTrE4mkz80O/qWtbfFQgI5FZwkiSWGXI8CE+HFiqjZty0tV9aw=='
-    }
 
 }
