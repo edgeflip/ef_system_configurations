@@ -55,7 +55,7 @@ class sentry ($venv_path = '/var/www/sentry') {
         port     => '9090'
     }
 
-    sentry::apache_conf_template { 'staging_apache_conf': 
+    sentry::apache_conf_template { 'prod_apache_conf': 
         hostname => 'sentry.efprod.com',
         port     => '9000'
     }
