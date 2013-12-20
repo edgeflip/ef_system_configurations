@@ -107,6 +107,8 @@ node /^eflip-sentry.*$/ inherits apache_proxy {
     class { 'base': production => $production }
     class { 'sentry': }
     class { 'apps::webflip': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
 }
 
 # APP NODES

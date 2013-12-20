@@ -2,7 +2,7 @@ class sentry ($venv_path = '/var/www/sentry') {
 
     package { [
         #'build-essential',
-        'python-pip',
+        #'python-pip',
         'python-virtualenv',
         #'virtualenvwrapper',
         #'libmysqlclient-dev',
