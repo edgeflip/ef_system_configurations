@@ -104,6 +104,7 @@ node /^eflip-sentry.*$/ inherits apache_proxy {
     $production = true
     $env = 'production'
     include supervisor
+    include apache2::mod_wsgi
     class { 'base': production => $production }
     class { 'sentry': }
     class { 'apps::webflip': env => $env }

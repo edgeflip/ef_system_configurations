@@ -27,7 +27,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $queues='bg_px4,user_feeds,process_sync,celery'
       } 'fbsync_comment_crawler': {
           # crawl_comments_and_likes
-          $queues='crawl_comments'
+          $queues='crawl_comments_and_likes'
       } 'fbsync_db': {
           $queues='bg_upsert,bg_update_edges,bg_partial_save'
       } 'full_stack': {
