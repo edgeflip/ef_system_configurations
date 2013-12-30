@@ -1,16 +1,16 @@
 class sentry ($venv_path = '/var/www/sentry') {
 
     package { [
-        #'build-essential',
-        #'python-pip',
+        'build-essential',
+        'python-pip',
         'python-virtualenv',
-        #'virtualenvwrapper',
-        #'libmysqlclient-dev',
-        #'gcc',
-        #'python-dev',
-        #'python-mysqldb',
+        'virtualenvwrapper',
+        'libmysqlclient-dev',
+        'gcc',
+        'python-dev',
+        'python-mysqldb',
         'postfix',
-        #'mysql-client-core-5.5',
+        'mysql-client-core-5.5',
         ]:
         ensure => installed
     }
