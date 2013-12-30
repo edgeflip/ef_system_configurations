@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-    ServerName sentry.efprod.com
+    ServerName <%= hostname %>
 
     DocumentRoot /var/www/sentry
 
@@ -10,8 +10,8 @@
     CustomLog "|/usr/bin/logger -t app='sentry.efprod.com' -p news.info" xff_syslog_api
     CustomLog /var/log/apache2/syslog xff_api
 
-    ProxyPass / http://localhost:9000/
-    ProxyPassReverse / http://localhost:9000/
+    ProxyPass / http://localhost:<%= @port %>/
+    ProxyPassReverse / http://localhost:<%= @port %>/
     ProxyPreserveHost On
     RequestHeader set X-Forwarded-Proto "https" env=HTTPS
 

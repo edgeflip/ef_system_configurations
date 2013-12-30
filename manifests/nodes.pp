@@ -103,8 +103,18 @@ node /^logger-efjbwaaawtgtyrtd.*$/ {
 node /^eflip-sentry.*$/ inherits apache_proxy {
     $production = true
     $env = 'production'
+    include supervisor
     class { 'base': production => $production }
-    class { 'apps::sentry': }
+    class { 'sentry': }
+}
+
+node /^eflip-controller.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::webflip': env => $env }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
 }
 
 # APP NODES
@@ -182,12 +192,32 @@ node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-# FB Sync Celery
+# FB Sync Celery 
 node /^eflip-production-fbsync.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps::celeryflip': env => $env, celerytype => "fbsync" }
+    class { 'apps::celeryflip': env => $env, celerytype => "fbsync_feed" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+# FB Sync Celery DB
+node /^eflip-production-db-fbsync.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::celeryflip': env => $env, celerytype => "fbsync_db" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
+# FB Sync Comments
+node /^eflip-production-comments-fbsync.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::celeryflip': env => $env, celerytype => "fbsync_comment_crawler" }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
 }

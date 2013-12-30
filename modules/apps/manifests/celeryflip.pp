@@ -22,12 +22,17 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       } 'user_facing': {
           # Tasks that need to be completed for the user to get a response
           $queues='px3,px3_filter,px4,celery'
-      } 'fbsync': {
+      } 'fbsync_feed': {
           # Feed crawler
           $queues='bg_px4,user_feeds,process_sync,celery'
+      } 'fbsync_comment_crawler': {
+          # crawl_comments_and_likes
+          $queues='crawl_comments_and_likes'
+      } 'fbsync_db': {
+          $queues='bg_upsert,bg_update_edges,bg_partial_save'
       } 'full_stack': {
-          # Feed crawler + mixed
-          $queues='bg_px4,user_feeds,process_sync,bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,celery'
+          # All the queues combined
+          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,process_sync,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,celery'
       }
   }
 
