@@ -5,6 +5,7 @@ class apt::update {
     command => '/usr/bin/apt-get update > /var/log/apt/update.log',
     returns => [ 0, 100 ],
     require => [ File['/etc/apt/sources.list.d/geppetto.list'],
+                 File['/etc/apt/sources.list.d/rabbitmq.list'],
                  Exec['import_geppetto_key'],
                  File['/root/.ssh/id_rsa'], ]
   }

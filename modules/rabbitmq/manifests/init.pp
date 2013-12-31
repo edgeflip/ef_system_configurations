@@ -17,6 +17,11 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
       notify  => [ Service['rabbitmq-server'], ],
   }
 
+  file { '/etc/rabbitmq/rabbitmq.conf.d':
+      ensure  => directory,
+      require => [ Package['rabbitmq-server'], ],
+  }
+
   exec { 'add_new_user':
     command     => "/usr/sbin/rabbitmqctl add_user $newuser $newpass",
     returns     => [ 0, 100 ],
