@@ -1,13 +1,20 @@
 class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' ) {
 
   package { 'rabbitmq-server':
-    ensure => installed,
+    ensure => latest,
     notify => Exec['add_new_user'],
   }
 
   service { 'rabbitmq-server':
     ensure  => running,
     require => Package['rabbitmq-server'],
+  }
+
+  file { '/etc/rabbitmq/enabled_plugins':
+      ensure  => file,
+      content => '[rabbitmq_management].',
+      require => [ Package['rabbitmq-server'], ],
+      notify  => [ Service['rabbitmq-server'], ],
   }
 
   exec { 'add_new_user':
