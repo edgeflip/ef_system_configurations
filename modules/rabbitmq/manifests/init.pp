@@ -1,7 +1,7 @@
 class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' ) {
 
   package { 'rabbitmq-server':
-    ensure => latest,
+    ensure => installed,
     notify => Exec['add_new_user'],
   }
 
