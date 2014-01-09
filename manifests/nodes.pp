@@ -120,6 +120,7 @@ node /^eflip-controller.*$/ inherits apache_modwsgi {
 node /^eflip-classifier.*$/ {
     $production = true
     $env = 'production'
+    include supervisor
     class { 'base': production => $production }
     class { 'classifier': }
     class { 'creds::app': env => $env, app => "edgeflip",
