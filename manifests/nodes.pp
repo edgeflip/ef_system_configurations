@@ -117,6 +117,15 @@ node /^eflip-controller.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
+node /^eflip-classifier.*$/ {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'classifier': }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
 # APP NODES
 # STAGING
 # Web
