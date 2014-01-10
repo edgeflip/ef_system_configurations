@@ -9,11 +9,11 @@ CELERYD_CHDIR="/var/www/edgeflip"
 # Python interpreter from environment.
 ENV_PYTHON="$VENV_PATH/bin/python"
 
+# Path to Celery binary
 CELERY_BIN="$VENV_PATH/bin/celery"
-CELERYD_MULTI="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryd_multi"
-CELERYCTL="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryctl"
 
 # Extra arguments to celeryd
+CELERY_APP='edgeflip'
 CELERYD_OPTS="--concurrency=16 -E --queues=<%= @queues %>"
 
 # %n will be replaced with the nodename.
