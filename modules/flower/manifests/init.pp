@@ -25,7 +25,7 @@ class flower ($venv_path = '/var/www/flower') {
     supervisor::template_supervisor_conf { 'flower_prod': 
         appname   => 'flower',
         directory => "$venv_path",
-        command   => "$venv_path/bin/celery flower --broker=amqp://edgeflip:edgeflip@eflip-rmq.efprod.com:5672/edgehost",
+        command   => "$venv_path/bin/celery flower --broker=amqp://edgeflip:edgeflip@eflip-rmq.efprod.com:5672/edgehost --broker_api=http://admin:303ewacker@ec2-54-211-204-21.compute-1.amazonaws.com:15672/api/ --basic_auth=edgeflip:303ewacker",
     }
 
     flower::apache_conf_template { 'flower_prod_apache_conf': 
