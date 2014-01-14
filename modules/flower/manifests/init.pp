@@ -1,25 +1,25 @@
 class flower ($venv_path = '/var/www/flower') {
 
-    exec { 'create_path':
+    exec { 'create_flower_path':
         command => '/usr/bin/sudo /bin/mkdir -p /var/www && /usr/bin/sudo /bin/chown ubuntu:ubuntu -R /var/www',
     }
 
-    exec { 'build_venv':
+    exec { 'build_flower_venv':
         command => "/usr/bin/sudo /usr/bin/virtualenv $venv_path && $venv_path/bin/easy_install -U distribute",
         unless  => "/usr/bin/test -d $venv_path",
-        require => [ Package['python-virtualenv'], Exec['create_path'] ],
+        require => [ Exec['create_flower_path'] ],
     }
 
-    file { 'requirements':
+    file { 'flower_requirements':
         ensure  => file,
         path    => "$venv_path/requirements.txt",
         source  => 'puppet:///modules/flower/flower/requirements.txt',
-        require => [ Exec['build_venv'] ]
+        require => [ Exec['build_flower_venv'] ]
     }
 
     exec { 'install_flower':
         command => "$venv_path/bin/pip install -r $venv_path/requirements.txt",
-        require => [ File['requirements'] ]
+        require => [ File['flower_requirements'] ]
     }
 
     supervisor::template_supervisor_conf { 'flower_prod': 
