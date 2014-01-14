@@ -1,7 +1,8 @@
 <VirtualHost *:80>
     ServerName <%= hostname %>
 
-    DocumentRoot <%= venv_path %>
+    DocumentRoot /var/www/flower
+
 
     LogLevel debug
     ErrorLog syslog:local6

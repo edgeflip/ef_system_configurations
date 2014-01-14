@@ -106,6 +106,7 @@ node /^eflip-sentry.*$/ inherits apache_proxy {
     include supervisor
     class { 'base': production => $production }
     class { 'sentry': }
+    class { 'flower': }
 }
 
 node /^eflip-controller.*$/ inherits apache_modwsgi {
