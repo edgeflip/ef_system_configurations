@@ -33,20 +33,20 @@ class sentry ($venv_path = '/var/www/sentry') {
     }
 
     exec { 'install_sentry':
-        command => "/var/www/sentry/bin/pip install -r $venv_path/requirements.txt",
+        command => "$venv_path/bin/pip install -r $venv_path/requirements.txt",
         require => [ File['requirements'] ]
     }
 
     supervisor::template_supervisor_conf { 'staging_supervisor': 
         appname   => 'sentry-web-staging',
-        directory => '/var/www/sentry',
-        command   => '/var/www/sentry/bin/sentry --config=/etc/sentry_staging.conf.py start http',
+        directory => "$venv_path",
+        command   => "$venv_path/bin/sentry --config=/etc/sentry_staging.conf.py start http",
     }
 
     supervisor::template_supervisor_conf { 'prod_supervisor': 
         appname   => 'sentry-web',
-        directory => '/var/www/sentry',
-        command   => '/var/www/sentry/bin/sentry --config=/etc/sentry.conf.py start http',
+        directory => "$venv_path",
+        command   => "$venv_path/bin/sentry --config=/etc/sentry.conf.py start http",
     }
 
     sentry::apache_conf_template { 'staging_apache_conf': 
