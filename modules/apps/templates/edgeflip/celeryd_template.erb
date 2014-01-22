@@ -14,7 +14,7 @@ CELERY_BIN="$VENV_PATH/bin/celery"
 
 # Extra arguments to celeryd
 CELERY_APP='edgeflip'
-CELERYD_OPTS="--concurrency=16 -E --queues=<%= @queues %>"
+CELERYD_OPTS="--concurrency=<%= @concurrency %> -E --queues=<%= @queues %>"
 
 # %n will be replaced with the nodename.
 CELERYD_LOG_FILE="/var/log/celery/%n.log"

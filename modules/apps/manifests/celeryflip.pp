@@ -16,23 +16,33 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           # Mixes background and front facing queues, mainly for staging
           # Later may fold fbsync processes into here as well
           $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,celery'
+          $concurrency='16'
       } 'background': {
           # Background jobs such as saving to the database
           $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,celery'
+          $concurrency='16'
       } 'user_facing': {
           # Tasks that need to be completed for the user to get a response
           $queues='px3,px3_filter,px4,celery'
+          $concurrency='16'
       } 'fbsync_feed': {
           # Feed crawler
-          $queues='bg_px4,user_feeds,process_sync,celery'
+          $queues='user_feeds,initial_crawl'
+          $concurrency='8'
+      } 'fbsync_low_pri_crawl': {
+          $queues='back_fill_crawl,incremental_crawl'
+          $concurreny='8'
       } 'fbsync_comment_crawler': {
           # crawl_comments_and_likes
           $queues='crawl_comments_and_likes'
+          $concurrency='8'
       } 'fbsync_db': {
           $queues='bg_upsert,bg_update_edges,bg_partial_save'
+          $concurrency='16'
       } 'full_stack': {
           # All the queues combined
-          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,process_sync,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,celery'
+          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,celery'
+          $concurrency='16'
       }
   }
 

@@ -213,6 +213,16 @@ node /^eflip-production-fbsync.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
+# FB Low Priority Crawls (background and incrementals)
+node /^eflip-production-lowpri-fbsync.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::celeryflip': env => $env, celerytype => "fbsync_low_pri_crawl" }
+    class { 'creds::app': env => $env, app => "edgeflip",
+                        stage => prep }
+}
+
 # FB Sync Celery DB
 node /^eflip-production-db-fbsync.*$/ inherits apache_modwsgi {
     $production = true
