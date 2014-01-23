@@ -39,6 +39,10 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       } 'fbsync_db': {
           $queues='bg_upsert,bg_update_edges,bg_partial_save'
           $concurrency='16'
+      } 'fbsync_full': {
+          # Good for staging to put all the fbsync on one server
+          $queues='user_feeds,initial_crawl,back_fill_crawl,incremental_crawl,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes'
+          $concurrency='8'
       } 'full_stack': {
           # All the queues combined
           $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,celery'
