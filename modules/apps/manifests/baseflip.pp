@@ -48,7 +48,11 @@ class apps::baseflip {
   }
 
   package {'python-mysqldb':
-  ensure    => installed,
+    ensure    => installed,
+  }
+
+  package {'libpq-dev':
+      ensure => installed,
   }
 
   file { '/var/www/edgeflip/conf.d':
