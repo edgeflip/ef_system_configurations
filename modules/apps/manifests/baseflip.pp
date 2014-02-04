@@ -9,6 +9,7 @@ class apps::baseflip {
                  Package['build-essential'],
                  Package['libmysqlclient-dev'],
                  Package['virtualenvwrapper'],
+                 Package['libpq-dev'],
                  Package['graphviz'], ],
     notify  => [ Exec['fix_perms'],
                  Exec['move_configs'], ],
