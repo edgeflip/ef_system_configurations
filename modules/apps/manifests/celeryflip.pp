@@ -28,17 +28,17 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       } 'fbsync_feed': {
           # Feed crawler
           $queues='user_feeds,initial_crawl'
-          $concurrency='8'
+          $concurrency='4'
       } 'fbsync_low_pri_crawl': {
           $queues='back_fill_crawl,incremental_crawl'
-          $concurrency='8'
+          $concurrency='4'
       } 'fbsync_comment_crawler': {
           # crawl_comments_and_likes
           $queues='crawl_comments_and_likes'
-          $concurrency='8'
+          $concurrency='4'
       } 'fbsync_db': {
           $queues='bg_upsert,bg_update_edges,bg_partial_save'
-          $concurrency='16'
+          $concurrency='8'
       } 'fbsync_full': {
           # Good for staging to put all the fbsync on one server
           $queues='user_feeds,initial_crawl,back_fill_crawl,incremental_crawl,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes'
