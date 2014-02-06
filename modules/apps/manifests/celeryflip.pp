@@ -31,7 +31,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='8'
       } 'fbsync_low_pri_crawl': {
           $queues='back_fill_crawl,incremental_crawl'
-          $concurreny='8'
+          $concurrency='8'
       } 'fbsync_comment_crawler': {
           # crawl_comments_and_likes
           $queues='crawl_comments_and_likes'
