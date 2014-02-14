@@ -113,15 +113,9 @@ node /^eflip-controller.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps::webflip': env => $env }
+    class { 'apps::controlflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip",
                         stage => prep }
-    cron { 'ofa_token_sync':
-      command  => "pushd /var/www/edgeflip && ./bin/python manage.py synctokens --database=ofa --model=OFAToken --appid=111399285589490 --since=1d",
-      user     => root,
-      hour     => 0,
-      minute   => 7,
-    }
 }
 
 node /^eflip-classifier.*$/ {
