@@ -14,7 +14,13 @@ class apps::controlflip ( $env='production', $celerytype='mixed' ) {
   package { 'devscripts':
     ensure  => installed,
   }
-  
+
+  file { '/var/log/edgeflip':
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+  }
+
   cron { 'ofa_token_sync':
     command  => "pushd /var/www/edgeflip && /usr/bin/annotate-output ./bin/python manage.py synctokens --database=ofa --model=OFAToken --appid=111399285589490 --since=1d &> /var/log/edgeflip/synctokens.log",
     user     => root,
