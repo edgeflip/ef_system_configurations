@@ -22,7 +22,7 @@ class apps::controlflip ( $env='production', $celerytype='mixed' ) {
   }
 
   cron { 'ofa_token_sync':
-    command  => "pushd /var/www/edgeflip && /usr/bin/annotate-output ./bin/python manage.py synctokens --database=ofa --model=OFAToken --appid=111399285589490 --since=1d &> /var/log/edgeflip/synctokens.log",
+    command  => "pushd /var/www/edgeflip && /usr/bin/annotate-output ./bin/python manage.py synctokens --database=ofa --model=OFAToken --appid=111399285589490 --since=1d &>> /var/log/edgeflip/synctokens.log",
     user     => root,
     hour     => 0,
     minute   => 7,
