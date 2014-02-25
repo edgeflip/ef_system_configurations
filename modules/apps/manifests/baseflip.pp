@@ -77,7 +77,7 @@ class apps::baseflip {
   }
 
   exec { 'move_configs':
-    command     => '/usr/bin/sudo /bin/cp -r /root/creds/app/* /var/www/edgeflip/conf.d/',
+    command     => '/usr/bin/sudo /usr/bin/rsync -av /root/creds/app/ /var/www/edgeflip/conf.d/ --delete',
     refreshonly => true,
     require     => [ Package['edgeflip'], File['/var/www/edgeflip/conf.d'], ],
     notify      => [ Service['apache2'], Exec['fix_perms'], ]
