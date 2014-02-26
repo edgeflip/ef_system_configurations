@@ -255,3 +255,11 @@ node /^eflip-production-rmq.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
+# RabbitMQ EBS
+node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
+                        newvhost => "edgehost" }
+}

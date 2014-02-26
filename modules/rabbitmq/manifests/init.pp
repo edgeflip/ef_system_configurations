@@ -10,6 +10,20 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
     require => Package['rabbitmq-server'],
   }
 
+  file { '/ebs/rabbitmq':
+      ensure  => directory,
+      owner   => 'rabbitmq',
+      group   => 'rabbitmq',
+      require => [ Package['rabbitmq-server'], ],
+  }
+
+  file { '/var/lib/rabbitmq':
+      ensure  => link,
+      target  => '/ebs/rabbitmq',
+      require => [ File['/ebs/rabbitmq'], ],
+      notify  => [ Service['rabbitmq-server'], ],
+  }
+
   file { '/etc/rabbitmq/enabled_plugins':
       ensure  => file,
       content => '[rabbitmq_management].',
