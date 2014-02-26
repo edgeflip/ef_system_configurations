@@ -30,5 +30,7 @@ class apt($staging = false) {
 
   exec { 'import_rabbit_key':
     command => '/usr/bin/wget -O - http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | /usr/bin/apt-key add - ',
+    require => [ File['/etc/apt/sources.list.d/rabbitmq.list'], ],
+    notify  => [ Exec['apt-get-update'], ],
   }
 }
