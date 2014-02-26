@@ -3,22 +3,11 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   package { 'rabbitmq-server':
     ensure  => installed,
     notify  => Exec['add_new_user'],
-    require => File[ '/var/lib/rabbitmq'],
   }
 
   service { 'rabbitmq-server':
     ensure  => running,
     require => Package['rabbitmq-server'],
-  }
-
-  file { '/ebs/rabbitmq':
-      ensure  => directory,
-  }
-
-  file { '/var/lib/rabbitmq':
-      ensure  => link,
-      target  => '/ebs/rabbitmq',
-      require => [ File['/ebs/rabbitmq'], ],
   }
 
   file { '/etc/rabbitmq/enabled_plugins':
