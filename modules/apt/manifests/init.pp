@@ -18,7 +18,7 @@ class apt($staging = false) {
     content => template('apt/geppetto.list.erb'),
   }
 
-  file { '/ect/apt/sources.list.d/ubuntu_repos.list':
+  file { '/etc/apt/sources.list.d/ubuntu_repos.list':
       ensure => present,
       source => 'puppet:///modules/apt/ubuntu_repos.list',
       notify => [Exec['apt-get-update'], ],
