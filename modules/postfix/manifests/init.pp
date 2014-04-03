@@ -7,7 +7,7 @@ class postfix {
     file { 'postfix_config':
         ensure  => file,
         path    => '/etc/postfix/main.cf',
-        source  => 'puppet:///modules/postfix/postfix/requirements.txt',
+        source  => 'puppet:///modules/postfix/postfix/main.cf',
         require => [ Package['postfix'] ]
     }
 
