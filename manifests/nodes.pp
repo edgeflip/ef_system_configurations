@@ -134,6 +134,7 @@ node /^eflip-classifier.*$/ {
 node /^edgeflip-staging-fjierwse.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
+    include postfix
     class { 'base': production => $production }
     class { 'apps::webflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -144,6 +145,7 @@ node /^edgeflip-staging-fjierwse.*$/ inherits apache_modwsgi {
 node /^edgeflip-staging-celery-dfker.*$/ inherits apache_modwsgi {
     $production = false
     $env = 'staging'
+    include postfix
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "full_stack" }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -177,6 +179,7 @@ node /^edgeflip-staging-rmq-dfker.*$/ inherits apache_modwsgi {
 node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
+    include postfix
     class { 'base': production => $production }
     class { 'apps::webflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -187,6 +190,7 @@ node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
 node /^eflip-production-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
+    include postfix
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "user_facing" }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -197,6 +201,7 @@ node /^eflip-production-celery.*$/ inherits apache_modwsgi {
 node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
+    include postfix
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "background" }
     class { 'creds::app': env => $env, app => "edgeflip",
