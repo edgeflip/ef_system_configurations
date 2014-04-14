@@ -42,7 +42,7 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   }
 
   exec { 'add_new_permissions':
-    command     => "/usr/sbin/rabbitmqctl set_permissions -p edgehost edgeflip \".*\" \".*\" \".*\"",
+    command     => "/usr/sbin/rabbitmqctl set_permissions -p $newvhost $newuser \".*\" \".*\" \".*\"",
     returns     => [ 0, 100 ],
     require     => [ Package['rabbitmq-server'],
                      Service['rabbitmq-server'],

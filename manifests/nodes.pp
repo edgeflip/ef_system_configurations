@@ -208,13 +208,13 @@ node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-# FB Sync Celery 
+# FB Sync Celery
 node /^eflip-production-fbsync.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "fbsync_feed" }
-    class { 'creds::app': env => $env, app => "edgeflip",
+    class { 'creds::app': env => $env, app => "edgeflip-fbsync",
                         stage => prep }
 }
 
@@ -224,7 +224,7 @@ node /^eflip-production-lowpri-fbsync.*$/ inherits apache_modwsgi {
     $env = 'production'
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "fbsync_low_pri_crawl" }
-    class { 'creds::app': env => $env, app => "edgeflip",
+    class { 'creds::app': env => $env, app => "edgeflip-fbsync",
                         stage => prep }
 }
 
@@ -234,7 +234,7 @@ node /^eflip-production-db-fbsync.*$/ inherits apache_modwsgi {
     $env = 'production'
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "fbsync_db" }
-    class { 'creds::app': env => $env, app => "edgeflip",
+    class { 'creds::app': env => $env, app => "edgeflip-fbsync",
                         stage => prep }
 }
 
@@ -244,19 +244,7 @@ node /^eflip-production-comments-fbsync.*$/ inherits apache_modwsgi {
     $env = 'production'
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "fbsync_comment_crawler" }
-    class { 'creds::app': env => $env, app => "edgeflip",
-                        stage => prep }
-}
-
-# RabbitMQ
-node /^eflip-production-rmq.*$/ inherits apache_modwsgi {
-    $production = true
-    $env = 'production'
-    class { 'base': production => $production }
-    class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
-                        newvhost => "edgehost" }
-    class { 'apps::webflip': env => $env }
-    class { 'creds::app': env => $env, app => "edgeflip",
+    class { 'creds::app': env => $env, app => "edgeflip-fbsync",
                         stage => prep }
 }
 
@@ -267,4 +255,13 @@ node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
     class { 'base': production => $production }
     class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
                         newvhost => "edgehost" }
+}
+
+# RabbitMQ FBSync EBS
+node /^eflip-production-ebs-fbsync-rmq.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'rabbitmq': newuser => "eflipsync", newpass => "eflipsync",
+                        newvhost => "fbsynchost" }
 }

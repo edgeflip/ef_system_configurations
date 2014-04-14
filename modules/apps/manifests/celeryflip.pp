@@ -28,7 +28,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       } 'fbsync_feed': {
           # Feed crawler
           $queues='user_feeds,initial_crawl'
-          $concurrency='4'
+          $concurrency='8'
       } 'fbsync_low_pri_crawl': {
           $queues='back_fill_crawl,incremental_crawl'
           $concurrency='4'
