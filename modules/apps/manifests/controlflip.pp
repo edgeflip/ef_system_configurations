@@ -22,9 +22,16 @@ class apps::controlflip ( $env='production', $celerytype='mixed' ) {
   }
 
   cron { 'ofa_token_sync':
-    command  => "cd /var/www/edgeflip && /usr/bin/annotate-output ./bin/python manage.py synctokens --database=ofa --model=OFAToken --clientid=19 --since=1d >> /var/log/edgeflip/synctokens.log 2>&1",
+    command  => 'cd /var/www/edgeflip && /usr/bin/annotate-output ./bin/python manage.py synctokens --database=ofa --model=OFAToken --clientid=19 --since=1d >> /var/log/edgeflip/synctokens.log 2>&1',
     user     => root,
     hour     => 0,
+    minute   => 7,
+  }
+
+  cron {'celery_purge':
+    command  => 'cd /var/www/edgeflip && ./bin/python manage.py purge_celery_taskmeta',
+    user     => root,
+    hour     => 3,
     minute   => 7,
   }
 }
