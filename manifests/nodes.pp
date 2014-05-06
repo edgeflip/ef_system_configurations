@@ -310,5 +310,5 @@ node /^eflip-production-fbsync-haproxy.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    # TODO: ADD HAPROXY
+    include haproxy
 }

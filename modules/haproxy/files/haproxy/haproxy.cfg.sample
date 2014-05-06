@@ -8,8 +8,6 @@ global
 
 defaults
     log global
-    mode    http
-    option  httplog
     option  dontlognull
         contimeout 5000
         clitimeout 50000
@@ -26,4 +24,6 @@ listen rabbitmq *:5672
     mode    tcp
     option  tcplog
     balance roundrobin
-    server  rabbit 127.0.0.1:5672 check inter 5000
+    # Add your servers below. The following is an example
+    # TYPE  NAME    HOST            HEALTH CHECK 
+    server  rabbit  127.0.0.1:5672  check inter 5000
