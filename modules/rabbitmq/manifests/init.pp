@@ -62,8 +62,10 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   exec { 'add_new_user':
     command     => "/usr/sbin/rabbitmqctl add_user $newuser $newpass",
     returns     => [ 0, 100 ],
-    require     => [ Package['rabbitmq-server'],
-                     Service['rabbitmq-server'], ],
+    require     => [
+      Package['rabbitmq-server'],
+      Service['rabbitmq-server'],
+    ],
     refreshonly => true,
     notify      => Exec['add_new_vhost'],
   }
@@ -71,9 +73,11 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   exec { 'add_new_vhost':
     command     => "/usr/sbin/rabbitmqctl add_vhost $newvhost",
     returns     => [ 0, 100 ],
-    require     => [ Package['rabbitmq-server'],
-                     Service['rabbitmq-server'],
-                     Exec['add_new_user'], ],
+    require     => [
+      Package['rabbitmq-server'],
+      Service['rabbitmq-server'],
+      Exec['add_new_user'],
+    ],
     refreshonly => true,
     notify      => Exec['add_new_permissions'],
   }
@@ -81,9 +85,31 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
   exec { 'add_new_permissions':
     command     => "/usr/sbin/rabbitmqctl set_permissions -p $newvhost $newuser \".*\" \".*\" \".*\"",
     returns     => [ 0, 100 ],
-    require     => [ Package['rabbitmq-server'],
-                     Service['rabbitmq-server'],
-                     Exec['add_new_vhost'], ],
+    require     => [
+      Package['rabbitmq-server'],
+      Service['rabbitmq-server'],
+      Exec['add_new_vhost'],
+    ],
     refreshonly => true,
+  }
+
+  exec { 'add_admin_user':
+    command => '/usr/sbin/rabbitmqctl add_user admin 303ewacker',
+    returns => [ 0, 100 ],
+    require => [
+      Package['rabbitmq-server'],
+      Service['rabbitmq-server'],
+      Exec['add_new_permissions'],
+    ],
+  }
+
+  exec { 'grant_admin_privs':
+    command => '/usr/sbin/rabbitmqctl set_user_tags admin administrator',
+    returns => [ 0, 100 ],
+    require => [
+      Package['rabbitmq-server'],
+      Service['rabbitmq-server'],
+      Exec['add_admin_user'],
+    ],
   }
 }
