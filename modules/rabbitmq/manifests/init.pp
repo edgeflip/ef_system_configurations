@@ -22,6 +22,43 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
       require => [ Package['rabbitmq-server'], ],
   }
 
+  file { '/var/lib/rabbitmq/logs':
+      ensure  => directory,
+      require => [ Package['rabbitmq-server'], ],
+  }
+
+  file { '/etc/default/rabbitmq-server':
+      ensure  => file,
+      source  => 'puppet:///modules/rabbitmq/rabbitmq/rabbitmq-defaults',
+      require => [
+        Package['rabbitmq-server'],
+        File['/var/lib/rabbitmq/logs'],
+      ],
+      notify  => [ Service['rabbitmq-server'], ],
+  }
+
+  file { '/etc/rabbitmq/rabbitmq.config':
+      ensure  => file,
+      source  => 'puppet:///modules/rabbitmq/rabbitmq/rabbitmq.config',
+      require => [
+        Package['rabbitmq-server'],
+        File['/var/lib/rabbitmq/logs'],
+      ],
+      notify  => [ Service['rabbitmq-server'], ],
+  }
+
+  file { '/etc/init.d/rabbitmq-server':
+      ensure  => file,
+      mode    => '0755',
+      source  => 'puppet:///modules/rabbitmq/rabbitmq/rabbitmq-server.init',
+      require => [
+        Package['rabbitmq-server'],
+        File['/etc/rabbitmq/rabbitmq.config'],
+        File['/etc/default/rabbitmq-server'],
+      ],
+      notify => [ Service['rabbitmq-server'], ],
+  }
+
   exec { 'add_new_user':
     command     => "/usr/sbin/rabbitmqctl add_user $newuser $newpass",
     returns     => [ 0, 100 ],
