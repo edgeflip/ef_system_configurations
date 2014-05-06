@@ -19,6 +19,8 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
 
   file { '/etc/rabbitmq/rabbitmq.conf.d':
       ensure  => directory,
+      owner   => 'rabbitmq',
+      group   => 'rabbitmq',
       require => [ Package['rabbitmq-server'], ],
   }
 
