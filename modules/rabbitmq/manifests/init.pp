@@ -93,6 +93,7 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
       Exec['add_new_vhost'],
     ],
     notify      => [ Exec['add_admin_user'], ],
+    refreshonly => true,
   }
 
   exec { 'add_admin_user':
