@@ -92,26 +92,29 @@ class rabbitmq ( $newuser='edgeflip', $newpass='edgeflip', $newvhost='edgeflip' 
       Service['rabbitmq-server'],
       Exec['add_new_vhost'],
     ],
-    refreshonly => true,
+    notify      => [ Exec['add_admin_user'], ],
   }
 
   exec { 'add_admin_user':
-    command => '/usr/sbin/rabbitmqctl add_user admin 303ewacker',
-    returns => [ 0, 100 ],
-    require => [
+    command     => '/usr/sbin/rabbitmqctl add_user admin 303ewacker',
+    returns     => [ 0, 100 ],
+    require     => [
       Package['rabbitmq-server'],
       Service['rabbitmq-server'],
       Exec['add_new_permissions'],
     ],
+    refreshonly => true,
+    notify      => [ Exec['grant_admin_privs'], ],
   }
 
   exec { 'grant_admin_privs':
-    command => '/usr/sbin/rabbitmqctl set_user_tags admin administrator',
-    returns => [ 0, 100 ],
-    require => [
+    command     => '/usr/sbin/rabbitmqctl set_user_tags admin administrator',
+    returns     => [ 0, 100 ],
+    require     => [
       Package['rabbitmq-server'],
       Service['rabbitmq-server'],
       Exec['add_admin_user'],
     ],
+    refreshonly => true,
   }
 }
