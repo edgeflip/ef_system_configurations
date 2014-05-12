@@ -29,4 +29,11 @@ class haproxy {
         require => [ Package['haproxy'], ],
     }
 
+    file { '/var/lib/haproxy':
+        ensure  => directory,
+        owner   => 'haproxy',
+        group   => 'haproxy',
+        require => [ Package['haproxy'], ],
+    }
+
 }
