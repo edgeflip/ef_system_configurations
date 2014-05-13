@@ -31,14 +31,14 @@ class creds {
     command     => '/usr/bin/apt-get -y -q install s3cmd #> /tmp/s3install.log',
     environment => ['DEBIAN_FRONTEND=noninteractive'],
     unless      => '/usr/bin/which s3cmd',
-    tries       => 5,
-    try_sleep   => 5,
   }
 
   exec { 'get_all':
     command     => "/usr/bin/s3cmd get --recursive --force -c ${s3cfg} ${source} /root/creds/",
     require     => [ Exec['install_s3cmd'], File['/root/creds'], ],
     refreshonly => true,
+    tries       => 5,
+    try_sleep   => 5,
   }
 
 }
