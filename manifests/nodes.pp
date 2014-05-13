@@ -282,7 +282,7 @@ node /^eflip-fbsync-controller.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
-    class { 'apps::controlflip': env => $env }
+    class { 'apps::fbsync_controlflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip-fbsync",
                         stage => prep }
 }
