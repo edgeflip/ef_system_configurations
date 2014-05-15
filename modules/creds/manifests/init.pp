@@ -34,11 +34,11 @@ class creds {
   }
 
   exec { 'get_all':
-    command     => "/usr/bin/s3cmd get --recursive --force -c ${s3cfg} ${source} /root/creds/",
-    require     => [ Exec['install_s3cmd'], File['/root/creds'], ],
-    refreshonly => true,
-    tries       => 5,
-    try_sleep   => 5,
+    command   => "/usr/bin/s3cmd get --recursive --force -c ${s3cfg} ${source} /root/creds/",
+    require   => [ Exec['install_s3cmd'], File['/root/creds'], ],
+    creates   => '/root/creds/authorized_keys.ef',
+    tries     => 5,
+    try_sleep => 5,
   }
 
 }
