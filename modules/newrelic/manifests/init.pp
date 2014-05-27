@@ -1,18 +1,5 @@
+# Installs and activates NewRelic monitoring service
 class newrelic {
-
-  file { 'newrelic-apt-repo':
-      ensure  => file,
-      path    => '/etc/apt/sources.list.d/newrelic.list',
-      content => 'deb http://apt.newrelic.com/debian/ newrelic non-free',
-      mode    => '0644',
-      owner   => root,
-  }
-
-  exec { 'import-newrelic-apt-key':
-    command => '/usr/bin/wget -O- https://download.newrelic.com/548C16BF.gpg | /usr/bin/apt-key add -',
-    require => [ File['newrelic-apt-repo'], ],
-    notify  => [ Exec['apt-get-update'], ],
-  }
 
   package { 'newrelic-sysmond':
     ensure  => latest,
