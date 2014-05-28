@@ -112,6 +112,7 @@ node /^eflip-sentry.*$/ inherits apache_proxy {
 node /^eflip-controller.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
+    include newrelic
     class { 'base': production => $production }
     class { 'apps::controlflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -180,6 +181,7 @@ node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     include postfix
+    include newrelic
     class { 'base': production => $production }
     class { 'apps::webflip': env => $env }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -191,6 +193,7 @@ node /^eflip-production-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     include postfix
+    include newrelic
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "user_facing" }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -202,6 +205,7 @@ node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
     include postfix
+    include newrelic
     class { 'base': production => $production }
     class { 'apps::celeryflip': env => $env, celerytype => "background" }
     class { 'creds::app': env => $env, app => "edgeflip",
@@ -212,6 +216,7 @@ node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
 node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
     $production = true
     $env = 'production'
+    include newrelic
     class { 'base': production => $production }
     class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
                         newvhost => "edgehost" }
