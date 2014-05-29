@@ -16,15 +16,15 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           # Mixes background and front facing queues, mainly for staging
           # Later may fold fbsync processes into here as well
           $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,oauth_token,extend_token,celery'
-          $concurrency='16'
+          $concurrency='8'
       } 'background': {
           # Background jobs such as saving to the database
           $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,oauth_token,extend_token,celery'
-          $concurrency='16'
+          $concurrency='8'
       } 'user_facing': {
           # Tasks that need to be completed for the user to get a response
           $queues='px3,px3_filter,px4,celery'
-          $concurrency='16'
+          $concurrency='8'
       } 'fbsync_feed': {
           # Feed crawler
           $queues='user_feeds'
