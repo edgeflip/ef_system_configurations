@@ -27,7 +27,10 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='2'
       } 'fbsync_feed': {
           # Feed crawler
-          $queues='user_feeds,initial_crawl'
+          $queues='user_feeds'
+          $concurrency='8'
+      } 'fbsync_initial_crawl': {
+          $queues='initial_crawl'
           $concurrency='2'
       } 'fbsync_low_pri_crawl': {
           $queues='back_fill_crawl,incremental_crawl'
@@ -37,7 +40,10 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $queues='crawl_comments_and_likes'
           $concurrency='4'
       } 'fbsync_db': {
-          $queues='bg_upsert,bg_update_edges,bg_partial_save,bg_bulk_create'
+          $queues='bg_upsert,bg_update_edges,bg_bulk_create'
+          $concurrency='8'
+      } 'fbsync_partial_save': {
+          $queues='bg_partial_save'
           $concurrency='8'
       } 'fbsync_full': {
           # Good for staging to put all the fbsync on one server
