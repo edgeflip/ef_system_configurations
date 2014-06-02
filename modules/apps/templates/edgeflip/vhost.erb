@@ -27,8 +27,9 @@
        Allow from all
    </Directory>
 
-   <IfModule mpm_worker_module>
-      MaxRequestsPerChild   500
-   </IfModule>
-
 </VirtualHost>
+
+<IfModule mpm_worker_module>
+  MaxRequestsPerChild   500
+</IfModule>
+
