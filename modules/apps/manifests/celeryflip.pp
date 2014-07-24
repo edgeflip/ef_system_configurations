@@ -37,7 +37,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='4'
       } 'fbsync_comment_crawler': {
           # crawl_comments_and_likes
-          $queues='crawl_comments_and_likes'
+          $queues='crawl_comments_and_likes,page_likes'
           $concurrency='4'
       } 'fbsync_db': {
           $queues='bg_upsert,bg_update_edges,bg_bulk_create'
@@ -47,11 +47,11 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='8'
       } 'fbsync_full': {
           # Good for staging to put all the fbsync on one server
-          $queues='user_feeds,initial_crawl,back_fill_crawl,incremental_crawl,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes'
+          $queues='user_feeds,initial_crawl,back_fill_crawl,incremental_crawl,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,page_likes'
           $concurrency='2'
       } 'full_stack': {
           # All the queues combined
-          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,oauth_token,extend_token,celery'
+          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,oauth_token,extend_token,celery,page_likes'
           $concurrency='2'
       }
   }
