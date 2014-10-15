@@ -15,7 +15,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       'mixed': {
           # Mixes background and front facing queues, mainly for staging
           # Later may fold fbsync processes into here as well
-          $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px3_filter,px4,oauth_token,extend_token,celery'
+          $queues='bulk_create,partial_save,delayed_save,upsert,update_edges,get_or_create,px3,px4,oauth_token,extend_token,celery'
           $concurrency='2'
       } 'background': {
           # Background jobs such as saving to the database
@@ -23,7 +23,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='8'
       } 'user_facing': {
           # Tasks that need to be completed for the user to get a response
-          $queues='px3,px3_filter,px4,celery'
+          $queues='px3,px4,celery'
           $concurrency='2'
       } 'fbsync_feed': {
           # Feed crawler
@@ -51,7 +51,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $concurrency='2'
       } 'full_stack': {
           # All the queues combined
-          $queues='px3,px3_filter,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,oauth_token,extend_token,celery,page_likes'
+          $queues='px3,px4,bulk_create,partial_save,delayed_save,get_or_create,upsert,update_edges,user_feeds,bg_px4,bg_upsert,bg_update_edges,bg_partial_save,crawl_comments_and_likes,initial_crawl,back_fill_crawl,incremental_crawl,oauth_token,extend_token,celery,page_likes'
           $concurrency='2'
       }
   }
