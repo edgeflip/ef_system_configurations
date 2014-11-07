@@ -233,7 +233,6 @@ node /^eflip-production-fbsync-dynamo-writes.*$/ inherits apache_modwsgi {
                         stage => prep }
 }
 
-# FB Sync
 # FB Sync Feeds
 node /^eflip-production-fbsync-user-feeds.*$/ inherits apache_modwsgi {
     $production = true
