@@ -25,6 +25,10 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           # Tasks that need to be completed for the user to get a response
           $queues='px3,px4,celery'
           $concurrency='2'
+      } 'fbsync_dynamo_writes': {
+          # Feed crawler
+          $queues='user_feeds,bg_upsert,bg_update_edges,bg_bulk_create,bg_partial_save'
+          $concurrency='2'
       } 'fbsync_feed': {
           # Feed crawler
           $queues='user_feeds'
