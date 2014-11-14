@@ -223,6 +223,16 @@ node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync
+# FB Sync Dynamo Writes
+node /^eflip-production-fbsync-dynamo-writes.*$/ inherits apache_modwsgi {
+    $production = true
+    $env = 'production'
+    class { 'base': production => $production }
+    class { 'apps::celeryflip': env => $env, celerytype => "fbsync_dynamo_writes" }
+    class { 'creds::app': env => $env, app => "edgeflip-fbsync",
+                        stage => prep }
+}
+
 # FB Sync Feeds
 node /^eflip-production-fbsync-user-feeds.*$/ inherits apache_modwsgi {
     $production = true
