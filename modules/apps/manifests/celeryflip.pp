@@ -26,7 +26,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
           $queues='px3,px4,celery'
           $concurrency='2'
       } 'fbsync_dynamo_writes': {
-          # Feed crawler
+          # Anything fbsync-related that writes to Dynamo
           $queues='user_feeds,bg_upsert,bg_update_edges,bg_bulk_create,bg_partial_save'
           $concurrency='2'
       } 'fbsync_feed': {
