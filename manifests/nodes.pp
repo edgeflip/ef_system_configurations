@@ -224,7 +224,7 @@ node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
 
 # FB Sync
 # FB Sync Dynamo Writes
-node /^eflip-production-fbsync-dynamo-writes.*$/ inherits apache_modwsgi {
+node /^eflip-production-fbsync-dynamo-writes.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -234,7 +234,7 @@ node /^eflip-production-fbsync-dynamo-writes.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Feeds
-node /^eflip-production-fbsync-user-feeds.*$/ inherits apache_modwsgi {
+node /^eflip-production-fbsync-user-feeds.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -244,7 +244,7 @@ node /^eflip-production-fbsync-user-feeds.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Initial Crawl
-node /^eflip-production-fbsync-initial-crawl.*$/ inherits apache_modwsgi {
+node /^eflip-production-fbsync-initial-crawl.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -254,7 +254,7 @@ node /^eflip-production-fbsync-initial-crawl.*$/ inherits apache_modwsgi {
 }
 
 # FB Low Priority Crawls (background and incrementals)
-node /^eflip-production-lowpri-fbsync.*$/ inherits apache_modwsgi {
+node /^eflip-production-lowpri-fbsync.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -264,7 +264,7 @@ node /^eflip-production-lowpri-fbsync.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Celery DB
-node /^eflip-production-db-fbsync.*$/ inherits apache_modwsgi {
+node /^eflip-production-db-fbsync.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -274,7 +274,7 @@ node /^eflip-production-db-fbsync.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Celery DB Partial Saves
-node /^eflip-production-db-partial-fbsync.*$/ inherits apache_modwsgi {
+node /^eflip-production-db-partial-fbsync.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
@@ -284,7 +284,7 @@ node /^eflip-production-db-partial-fbsync.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Comments
-node /^eflip-production-comments-fbsync.*$/ inherits apache_modwsgi {
+node /^eflip-production-comments-fbsync.*$/ {
     $production = true
     $env = 'production'
     class { 'base': production => $production }
