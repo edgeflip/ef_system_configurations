@@ -9,7 +9,7 @@ class apache2 ( $mpm='worker' ) {
     ensure     => running,
     hasstatus  => true,
     hasrestart => true,
-    subscribe  => Package['apache2'],
+    subscribe  => [Package['apache2'], File['/var/www/edgeflip/conf.d'], Exec['move_configs'], Exec['fix_perms']]
     status     => "/etc/init.d/apache2 status",
   }
 

@@ -60,11 +60,6 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       }
   }
 
-  apache2::templatevhost { "$edgeflip_hostname":
-    content => template('apps/edgeflip/vhost.erb'),
-    require => Package['edgeflip'],
-  }
-
     # Celery related items
     group { 'celery':
       ensure  => present,
@@ -111,7 +106,6 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       hasstatus  => true,
       hasrestart => true,
       status     => "/etc/init.d/celeryd status",
-      subscribe  => Service['apache2'],
     }
 }
 

@@ -72,7 +72,6 @@ class apps::baseflip {
     source  => '/root/creds/app/newrelic.ini',
     owner   => 'www-data',
     group   => 'www-data',
-    notify  => Service['apache2'],
     require => Package['edgeflip'],
   }
 
@@ -80,7 +79,7 @@ class apps::baseflip {
     command     => '/usr/bin/sudo /usr/bin/rsync -av /root/creds/app/ /var/www/edgeflip/conf.d/ --delete',
     refreshonly => true,
     require     => [ Package['edgeflip'], File['/var/www/edgeflip/conf.d'], ],
-    notify      => [ Service['apache2'], Exec['fix_perms'], ]
+    notify      => Exec['fix_perms']
   }
 
   exec { 'fix_perms':
@@ -88,7 +87,6 @@ class apps::baseflip {
     refreshonly => true,
     require     => [ Package['edgeflip'],
                      File['/opt/fix-perms.sh'] ],
-    notify      => Service['apache2'],
   }
 
   rsyslog::importconfig { 'edgeflip':
