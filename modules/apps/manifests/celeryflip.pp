@@ -106,6 +106,7 @@ class apps::celeryflip ( $env='production', $celerytype='mixed' ) {
       hasstatus  => true,
       hasrestart => true,
       status     => "/etc/init.d/celeryd status",
+      subscribe  => Package['edgeflip'],
     }
 }
 
