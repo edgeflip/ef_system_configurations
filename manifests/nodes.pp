@@ -143,7 +143,7 @@ node /^edgeflip-staging-fjierwse.*$/ inherits apache_modwsgi {
 }
 
 # Celery
-node /^edgeflip-staging-celery-dfker.*$/ inherits apache_modwsgi {
+node /^edgeflip-staging-celery-dfker.*$/ {
     $production = false
     $env = 'staging'
     include postfix
@@ -154,7 +154,7 @@ node /^edgeflip-staging-celery-dfker.*$/ inherits apache_modwsgi {
 }
 
 # FB Sync Celery
-node /^edgeflip-staging-fbsync.*$/ inherits apache_modwsgi {
+node /^edgeflip-staging-fbsync.*$/ {
     $production = false
     $env = 'staging'
     class { 'base': production => $production }
@@ -189,7 +189,7 @@ node /^eflip-production-frwse.*$/ inherits apache_modwsgi {
 }
 
 # User Facing Celery
-node /^eflip-production-celery.*$/ inherits apache_modwsgi {
+node /^eflip-production-celery.*$/ {
     $production = true
     $env = 'production'
     include postfix
@@ -201,7 +201,7 @@ node /^eflip-production-celery.*$/ inherits apache_modwsgi {
 }
 
 # Background Celery
-node /^eflip-production-bg-celery.*$/ inherits apache_modwsgi {
+node /^eflip-production-bg-celery.*$/ {
     $production = true
     $env = 'production'
     include postfix
