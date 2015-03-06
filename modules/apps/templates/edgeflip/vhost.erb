@@ -6,6 +6,7 @@
     WSGIDaemonProcess edgeflip threads=5
     WSGIScriptAlias / /var/www/edgeflip/edgeflip/wsgi.py
     AllowEncodedSlashes NoDecode
+    WSGIPassAuthorization On
 
     LogLevel debug
         ErrorLog syslog:local6
