@@ -213,10 +213,10 @@ node /^eflip-production-bg-celery.*$/ {
 }
 
 # RabbitMQ EBS
-node /^eflip-production-ebs-rmq.*$/ inherits apache_modwsgi {
+node /^eflip-production-ebs-rmq.*$/ {
     $production = true
     $env = 'production'
-    include newrelic
+    # include newrelic # DISABLED
     class { 'base': production => $production }
     class { 'rabbitmq': newuser => "edgeflip", newpass => "edgeflip",
                         newvhost => "edgehost" }
