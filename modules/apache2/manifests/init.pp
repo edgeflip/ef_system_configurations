@@ -9,7 +9,7 @@ class apache2 ( $mpm='worker' ) {
     ensure     => running,
     hasstatus  => true,
     hasrestart => true,
-    subscribe  => [Package['apache2'], File['/var/www/edgeflip/newrelic.ini'], Exec['move_configs'], Exec['fix_perms']],
+    subscribe  => [Package['apache2'], Exec['move_configs'], Exec['fix_perms']],
     status     => "/etc/init.d/apache2 status",
   }
 
